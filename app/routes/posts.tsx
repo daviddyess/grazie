@@ -1,6 +1,6 @@
 /**
  * Grazie
- * @copyright Copyright (c) 2024 David Dyess II
+ * @copyright Copyright (c) 2024-2025 David Dyess II
  * @license MIT see LICENSE
  */
 import type { LoaderFunctionArgs } from '@remix-run/node';
@@ -35,6 +35,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const posts = await getPosts(query, userId);
 
   if (
+    posts.nodes?.length > 0 &&
     !(await sentry(
       request,
       {
