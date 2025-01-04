@@ -1,6 +1,6 @@
 /**
  * Grazie
- * @copyright Copyright (c) 2024 David Dyess II
+ * @copyright Copyright (c) 2024-2025 David Dyess II
  * @license MIT see LICENSE
  */
 function format(input: string | null, type: string) {
@@ -35,12 +35,16 @@ export function pagerParams(request: Request, defaultCount = 25) {
     count: 'number',
     search: 'string'
   });
+
   return {
     page: params?.page,
     count: params?.count ?? defaultCount,
     pagerLoader: (totalCount: number) => ({
       page: params?.page,
-      count: params.count !== defaultCount ? params.count : undefined,
+      count:
+        params?.count && params?.count !== defaultCount
+          ? params.count
+          : defaultCount,
       total: Math.ceil(totalCount / (params?.count ?? defaultCount))
     })
   };
