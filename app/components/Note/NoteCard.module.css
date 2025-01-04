@@ -1,7 +1,7 @@
 .card {
   position: relative;
-  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8));
-  border: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-6));
+  background-color: light-dark(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.01));
+  border: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
 }
 
 .header {
@@ -27,8 +27,12 @@
 }
 
 .body {
-  min-height: 60px;
+  min-height: 80px;
   padding: rem(7px) rem(10px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: max-height var(--spoiler-transition-duration, 200ms) ease;
 }
 
 .action {

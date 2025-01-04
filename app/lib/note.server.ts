@@ -1,7 +1,7 @@
 /**
  * Grazie
  * @package Note Library
- * @copyright Copyright (c) 2024 David Dyess II
+ * @copyright Copyright (c) 2024-2025 David Dyess II
  * @license MIT see LICENSE
  */
 import { getUserByUsername } from '~/lib/user.server';
@@ -9,7 +9,7 @@ import { avatarURL } from '~/utils/config.server';
 import { getLogger } from '~/utils/logger.server';
 import { timeString } from '~/utils/generic.server';
 import { prisma } from '~/utils/prisma.server';
-import type { NoteInput } from '~/types/Note';
+import type { NoteInput, NoteUpdate } from '~/types/Note';
 import { getLabel } from './label.server';
 
 const log = getLogger('Notes Query');
@@ -54,7 +54,7 @@ export async function updateNote({
   title,
   body,
   search
-}: NoteInput) {
+}: NoteUpdate) {
   try {
     if (!id) {
       throw new Error('Note Update requires id');
@@ -109,6 +109,7 @@ export async function getNote({ id, select }) {
         title: true,
         body: true,
         meta: true,
+        type: true,
         author: {
           select: {
             displayName: true,
@@ -188,6 +189,7 @@ export async function getNotes({
         body: true,
         search: true,
         meta: true,
+        type: true,
         author: {
           select: {
             displayName: true,

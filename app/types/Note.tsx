@@ -18,6 +18,17 @@ export type NoteInput = {
   type: string;
 };
 
+export type NoteUpdate = {
+  id?: number;
+  pinned?: boolean;
+  createdAt?: number;
+  updatedAt?: number;
+  search?: string;
+  title?: string;
+  body: object | string;
+  meta?: object;
+};
+
 export type Note = {
   id: string;
   pinned: boolean;

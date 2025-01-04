@@ -3,13 +3,12 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { Title, Grid, Tabs } from '@mantine/core';
+import { Title, Grid, Tabs, SimpleGrid } from '@mantine/core';
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData, useNavigate } from '@remix-run/react';
 import NoteCard from '~/components/Note/NoteCard';
 import { getNotes } from '~/lib/note.server';
-import { site } from '@/grazie';
 import { pagerParams } from '~/utils/searchParams.server';
 import Pager from '~/components/Pager/Pager';
 import { subject, useAbility } from '~/hooks/useAbility';
@@ -90,7 +89,9 @@ export default function Articles() {
           </Tabs.List>
           <Pager />
           <Tabs.Panel value="browse" py={10}>
-            {notes}
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4 }}>
+              {notes}
+            </SimpleGrid>
           </Tabs.Panel>
           <Pager />
         </Tabs>

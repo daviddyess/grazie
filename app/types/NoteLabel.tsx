@@ -10,6 +10,7 @@ export type NoteLabelInput = {
   id?: number;
   noteId: number;
   labelId: number;
+  name?: string;
 };
 
 export type NoteLabel = {
