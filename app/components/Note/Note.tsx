@@ -125,42 +125,8 @@ export default function Note({ data }: { data: ArticleCardProps }) {
         </Card.Section>
         <Card.Section className={classes.footer}>
           <Group gap={0} justify="space-between">
+            <Group gap={0}></Group>
             <Group gap={0}>
-              <Avatar src={author.image} radius="sm" />
-              <div>
-                <Text size="sm" fw={500} pl="xs">
-                  {author.name}
-                </Text>
-              </div>
-            </Group>
-
-            <Group gap={0}>
-              <ActionIcon
-                variant="subtle"
-                color={copied ? theme.colors.green[7] : theme.colors.blue[6]}
-                onClick={() => {
-                  clipboard.copy(shareLink);
-                  setCopied(true);
-                }}
-              >
-                {copied ? (
-                  <IconClipboardCheck
-                    size={22}
-                    color={
-                      copied ? theme.colors.green[7] : theme.colors.blue[6]
-                    }
-                    stroke={1.5}
-                  />
-                ) : (
-                  <IconShare
-                    size={22}
-                    color={
-                      copied ? theme.colors.green[7] : theme.colors.blue[6]
-                    }
-                    stroke={1.5}
-                  />
-                )}
-              </ActionIcon>
               {canEditNote && (
                 <Menu trigger="click-hover" width="100px">
                   <Menu.Target>

@@ -142,37 +142,6 @@ export default function NoteCard({
           </Text>
         </Group>
       ) : null}
-
-      <Card.Section className={classes.footer}>
-        <Group gap={0} justify="space-between">
-          <Group gap={0}>
-            <Avatar src={author.image} radius="sm" />
-            <div>
-              <Text size="sm" fw={500} pl="xs">
-                {author.name}
-              </Text>
-              <Text size="xs" c="dimmed" pl="sm">
-                {author.description}
-              </Text>
-            </div>
-          </Group>
-          <Group gap={0}>
-            <ActionIcon variant="subtle" color="gray">
-              <IconHeart size={22} color={theme.colors.red[6]} stroke={1.5} />
-            </ActionIcon>
-            <ActionIcon variant="subtle" color="gray">
-              <IconBookmark
-                size={22}
-                color={theme.colors.yellow[6]}
-                stroke={1.5}
-              />
-            </ActionIcon>
-            <ActionIcon variant="subtle" color="gray">
-              <IconShare size={22} color={theme.colors.blue[6]} stroke={1.5} />
-            </ActionIcon>
-          </Group>
-        </Group>
-      </Card.Section>
     </Card>
   );
 }
