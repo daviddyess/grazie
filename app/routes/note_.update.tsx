@@ -3,18 +3,12 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { Title, Grid, Tabs } from '@mantine/core';
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
-import { json } from '@remix-run/node'; // or cloudflare/deno
-import { useNavigate } from '@remix-run/react';
+import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
 import { redirectWithToast } from 'remix-toast';
-import Editor from '~/components/Editor';
 import { getLabels, noteLabel } from '~/lib/label.server';
-import { updateNote } from '~/lib/note.server';
-import { createAbility, getSession } from '~/utils/session.server';
-import { site } from '@/grazie';
+import { getNote, updateNote } from '~/lib/note.server';
+import { createAbility } from '~/utils/session.server';
 import { sentry } from '~/lib/sentry.server';
-import { SEO } from '~/utils/meta';
 
 export async function action({ request }: ActionFunctionArgs) {
   if (!request?.ability) {
@@ -23,12 +17,20 @@ export async function action({ request }: ActionFunctionArgs) {
 
   await sentry(request, { action: 'create', subject: 'Note' });
   const form = await request.formData();
-  const session = await getSession(request.headers.get('Cookie'));
-  const authorId = session.get('userId') as number;
+  // const session = await getSession(request.headers.get('Cookie'));
+  //const authorId = session.get('userId') as number;
   const pinned = form.get('published') === 'on' ? true : false;
+  const id = Number(form.get('id'));
+  const noteCheck = await getNote({ id });
+
+  await sentry(request, {
+    action: 'update',
+    subject: 'Note',
+    item: noteCheck
+  });
 
   const note = await updateNote({
-    id: Number(form.get('id')),
+    id,
     title: form.get('title') as string,
     body: form.get('body') as string,
     search: form.get('search') as string,
@@ -47,7 +49,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   if (note?.id) {
     return redirectWithToast(`/note/${note.id}`, {
-      message: 'Note Created!',
+      message: 'Note Updated!',
       type: 'success'
     });
   } else return note;
