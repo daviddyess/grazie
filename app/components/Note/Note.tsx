@@ -98,9 +98,7 @@ export default function Note({ data }: { data: ArticleCardProps }) {
                   )
                 )
               ) : (
-                <Title order={1} className={classes.title}>
-                  {title}
-                </Title>
+                <Title order={1}>{title}</Title>
               )}
             </Group>
 
@@ -111,9 +109,7 @@ export default function Note({ data }: { data: ArticleCardProps }) {
         </Card.Section>
         {title && labels?.length > 0 ? (
           <Card.Section className={classes.header}>
-            <Title order={1} className={classes.title}>
-              {title}
-            </Title>
+            <Title order={1}>{title}</Title>
           </Card.Section>
         ) : null}
         <Card.Section

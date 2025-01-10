@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { Grid } from '@mantine/core';
+import { Grid, Title } from '@mantine/core';
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
@@ -60,6 +60,9 @@ export default function NoteView() {
   return (
     <Grid>
       <Grid.Col span={12}>
+        <Title order={2} mb="md">
+          Notes
+        </Title>
         <Note
           data={{
             ...note,
