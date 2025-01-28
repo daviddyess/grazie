@@ -16,7 +16,9 @@ export const site = {
   slogan: 'Powered by Grazie!',
   description: 'My Grazie! Site',
   copyright: 2024,
-  separator: ' | '
+  owner: 'David Dyess II',
+  separator: ' | ',
+  url: 'http://localhost:3000'
 };
 
 export const metaSettings = {
