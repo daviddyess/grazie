@@ -23,7 +23,7 @@ export async function parsePackageChanges(snapshot) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const content = await response.text();
-    console.log(content);
+
     const changes = {
       packages: []
     };
@@ -38,7 +38,7 @@ export async function parsePackageChanges(snapshot) {
       .slice(1); // Skip "Packages changed:" header
 
     for (const line of packageLines) {
-      // Removed leading whitespace requirement from regex
+      // Remove leading whitespace requirement from regex
       const parts = line.trim().match(/^(\S+)(?:\s+\((.*?)\))?$/);
       if (parts) {
         const [, name, version] = parts;
@@ -63,6 +63,12 @@ export async function parsePackageChanges(snapshot) {
   }
 }
 
+const formatDate = (dateStr: string) =>
+  `${dateStr.substring(0, 4)}-${dateStr.substring(4, 6)}-${dateStr.substring(
+    6,
+    8
+  )}`;
+
 export function parseSnapshots(content) {
   const lines = content.split('<br/>').filter((line) => line.trim());
   const snapshots = {
@@ -78,7 +84,6 @@ export function parseSnapshots(content) {
     throw new Error('Could not find current snapshot marker');
   }
 
-  // Process each line
   lines.forEach((line, index) => {
     // Extract snapshot ID using regex that matches the full link pattern
     const match = line.match(/<a href="diff\/(\d+)">(\d+)<\/a>/);
@@ -88,7 +93,8 @@ export function parseSnapshots(content) {
     const snapshot = {
       version: snapshotId,
       link: `${SNAPSHOT_URL}${snapshotId}`,
-      change: null // Will be filled in below
+      change: null, // Will be filled in below
+      date: formatDate(snapshotId)
     };
 
     if (index === currentIndex) {
@@ -100,7 +106,6 @@ export function parseSnapshots(content) {
     }
   });
 
-  // Add change property to each snapshot
   // For each snapshot, change points to the one before it chronologically
   if (snapshots.current) {
     if (snapshots.published.length > 0) {
@@ -134,12 +139,6 @@ export async function getSnapshotData() {
     const content = await fetchSnapshotPage();
     const snapshots = parseSnapshots(content);
 
-    // If you want to include package changes for the current snapshot
-    if (snapshots.current) {
-      const changes = await parsePackageChanges(snapshots.current.change);
-      snapshots.current.packages = changes.packages;
-    }
-
     return snapshots;
   } catch (error) {
     console.error('Error processing snapshots:', error);
@@ -147,27 +146,12 @@ export async function getSnapshotData() {
   }
 }
 
-// Example usage
-async function main() {
+export async function getSnapshotDiff(snapshot) {
   try {
-    const snapshots = await getSnapshotData();
-
-    console.log('Current snapshot:', {
-      version: snapshots.current.version,
-      change: snapshots.current.change
-    });
-
-    if (snapshots.current.packages) {
-      console.log('\nPackage changes in current snapshot:');
-      snapshots.current.packages.forEach((pkg) => {
-        if (pkg.version_change) {
-          console.log(`- ${pkg.name}: ${pkg.version_change}`);
-        } else {
-          console.log(`- ${pkg.name}: modified`);
-        }
-      });
-    }
+    const diff = await parsePackageChanges(snapshot);
+    return diff.packages;
   } catch (error) {
-    console.error('Failed to get snapshot data:', error);
+    console.error('Error processing snapshots:', error);
+    throw error;
   }
 }
