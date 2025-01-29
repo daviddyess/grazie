@@ -35,11 +35,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     image: `${site.url}/logo.png`,
     favicon: `${site.url}/favicon.ico`,
     copyright: `Copyright ${site.copyright} ${site.owner}`,
-    author: {
-      name: 'David Dyess II',
-      email: 'david@dyess.io',
-      link: 'https://dyess.io'
-    },
     feedLinks: {
       json: `${site.url}/feed.json`,
       atom: `${site.url}/feed.atom`,

@@ -29,6 +29,21 @@ export async function loader({ request }: LoaderFunctionArgs) {
         text: `Latest Posts - JSON | ${site.name}`,
         type: 'json',
         xmlUrl: `${site.url}/feed.json`
+      },
+      {
+        text: `openSUSE Tumbleweed Snapshots - RSS | ${site.name}`,
+        type: 'rss',
+        xmlUrl: `${site.url}/tumbleweed/feed.rss`
+      },
+      {
+        text: `openSUSE Tumbleweed Snapshots - Atom | ${site.name}`,
+        type: 'atom',
+        xmlUrl: `${site.url}/tumbleweed/feed.atom`
+      },
+      {
+        text: `openSUSE Tumbleweed Snapshots - JSON | ${site.name}`,
+        type: 'json',
+        xmlUrl: `${site.url}/tumbleweed/feed.json`
       }
     ]
   });
