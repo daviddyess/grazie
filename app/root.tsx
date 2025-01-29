@@ -46,8 +46,36 @@ import classes from '~/styles/NotFound.module.css';
 import { getUser } from '~/utils/session.server';
 import { site, theme } from '@/grazie';
 
+const cssBundleLink = cssBundleHref
+  ? [{ rel: 'stylesheet', href: cssBundleHref }]
+  : [];
+
 export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : [])
+  ...cssBundleLink,
+  {
+    rel: 'alternate',
+    href: '/feed.rss',
+    title: 'RSS Feed',
+    type: 'application/rss+xml'
+  },
+  {
+    rel: 'alternate',
+    href: '/feed.atom',
+    title: 'Atom Feed',
+    type: 'application/atom+xml'
+  },
+  {
+    rel: 'alternate',
+    href: '/feed.json',
+    title: 'JSON Feed',
+    type: 'application/feed+json'
+  },
+  {
+    rel: 'alternate',
+    href: '/feeds.opml',
+    title: 'OPML Feed',
+    type: 'text/opml+xml'
+  }
 ];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
