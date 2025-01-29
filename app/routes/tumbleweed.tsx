@@ -1,4 +1,5 @@
 import {
+  Alert,
   Anchor,
   Box,
   Button,
@@ -35,6 +36,7 @@ import {
 } from '@tabler/icons-react';
 import { SEO } from '~/utils/meta';
 import { site } from '@/grazie';
+import OSIcon from '~/images/opensuse-button.svg';
 
 export const links: LinksFunction = () => [
   {
@@ -332,6 +334,20 @@ export default function TumbleweedSnapshots() {
             </Card>
           </Grid.Col>
         </Grid>
+      </Grid.Col>
+      <Grid.Col span={12}>
+        <Alert
+          variant="outline"
+          color="lime"
+          title="Source"
+          icon={<img src={OSIcon} alt="OpenSUSE Logo" width="30" />}
+        >
+          Data for this page and the feeds collected from the openQA{' '}
+          <Link to="https://openqa.opensuse.org/snapshot-changes/opensuse/Tumbleweed/">
+            Snapshot
+          </Link>{' '}
+          pages
+        </Alert>
       </Grid.Col>
     </Grid>
   );
