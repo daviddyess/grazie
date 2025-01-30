@@ -61,7 +61,11 @@ const GridOverlay = ({
           display: grid;
           grid-template-columns: repeat(10, 1fr);
           grid-template-rows: repeat(10, 1fr);
-          background-image: linear-gradient(to right, #000 1px, transparent 1px),
+          background-image: linear-gradient(
+              to right,
+              #000 1px,
+              transparent 1px
+            ),
             linear-gradient(to bottom, #000 1px, transparent 1px);
           background-size: 10% 10%;
           animation: fadeOutGrid 2s forwards;

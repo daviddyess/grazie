@@ -73,7 +73,7 @@ const ArticleEditor = ({
       search,
       title,
       slug,
-      slugFormat: slug ? null : slugFormat ?? 'title-id',
+      slugFormat: slug ? null : (slugFormat ?? 'title-id'),
       categories:
         categories && categories?.length > 0
           ? categories.map((cat) => cat.category.name)
@@ -229,7 +229,7 @@ const ArticleEditor = ({
                   placeholder={
                     form.values.slugFormat === 'custom'
                       ? 'Add a Custom URL Slug'
-                      : form.values?.slug ?? 'System Generated'
+                      : (form.values?.slug ?? 'System Generated')
                   }
                   {...form.getInputProps('slug')}
                   onChange={({ currentTarget: { value } }) =>
