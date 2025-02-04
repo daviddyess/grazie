@@ -21,7 +21,7 @@ import {
   useMantineTheme
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Link, useNavigate } from '@remix-run/react';
+import { Link, useNavigate } from 'react-router';
 import {
   IconBook,
   IconChartPie3,

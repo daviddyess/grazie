@@ -4,7 +4,7 @@
  * @license MIT see LICENSE
  */
 import { Group, Pagination } from '@mantine/core';
-import { useLoaderData, useSearchParams } from '@remix-run/react';
+import { useLoaderData, useSearchParams } from 'react-router';
 
 export default function Pager({ showEmpty = false }: { showEmpty?: boolean }) {
   const {

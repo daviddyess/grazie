@@ -1,9 +1,9 @@
 import { Feed } from '@gaphub/feed';
-import { LoaderFunctionArgs } from '@remix-run/node';
+import type { LoaderFunctionArgs } from 'react-router';
 import { getPosts } from '~/lib/post.server';
 import { sentry } from '~/lib/sentry.server';
 import { pagerParams } from '~/utils/searchParams.server';
-import { site, metaSettings } from '@/grazie';
+import { site } from '@/grazie';
 import { createAbility, getSession } from '~/utils/session.server';
 import { Link } from '@mantine/tiptap';
 import { Highlight } from '@tiptap/extension-highlight';
@@ -29,7 +29,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const feed = new Feed({
     title: site?.name ?? '',
     description: site?.description,
-    id: `${site.url}/feed.atom`,
+    id: `${site.url}/feed.rss`,
     link: `${site.url}`,
     language: 'en',
     image: `${site.url}/logo.png`,
@@ -79,8 +79,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     });
   });
 
-  return new Response(feed.atom1(), {
+  return new Response(feed.rss2(), {
     status: 200,
-    headers: { 'Content-Type': 'application/atom+xml' }
+    headers: { 'Content-Type': 'application/rss+xml' }
   });
 }

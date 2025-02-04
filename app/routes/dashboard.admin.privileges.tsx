@@ -4,8 +4,8 @@
  * @license MIT see LICENSE
  */
 import { ActionIcon, Box, Button, Group, Table, Title } from '@mantine/core';
-import { LoaderFunctionArgs, json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import { IconEdit, IconSquarePlus } from '@tabler/icons-react';
 import { Fragment, useState } from 'react';
 import classes from '~/components/Dashboard/AdminPost.module.css';
@@ -29,11 +29,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     offset: page ? (page - 1) * count : 0
   };
   const privileges = await getPrivileges(query);
-  return json({
+  return {
     _page: 'dashboard',
     privileges,
     pager: pagerLoader(privileges.totalCount)
-  });
+  };
 }
 
 export default function UserAdmin() {

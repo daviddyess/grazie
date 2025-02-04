@@ -3,9 +3,9 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { ActionFunctionArgs, json, LoaderFunctionArgs } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { jsonWithError, redirectWithToast } from 'remix-toast';
+import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
+import { dataWithError, redirectWithToast } from 'remix-toast';
 import UserAccount from '~/components/User/Account';
 import { sentry } from '~/lib/sentry.server';
 import { getUserAccount, updateUser } from '~/lib/user.server';
@@ -74,7 +74,7 @@ export async function action({ request }: ActionFunctionArgs) {
   }
   const errors = validateSchema(accountSchema(updates), updates);
   if (errors) {
-    return jsonWithError(
+    return dataWithError(
       { errors, data: updates },
       { message: 'An Error Occurred!' }
     );
@@ -87,7 +87,7 @@ export async function action({ request }: ActionFunctionArgs) {
       type: 'success'
     });
   } else {
-    return jsonWithError(
+    return dataWithError(
       { errors: account.errors, data: updates },
       { message: 'An Error Occurred!' }
     );
@@ -109,7 +109,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const data = { account, _page: 'dashboard' };
 
-  return json(data);
+  return data;
 }
 
 const Account = () => {

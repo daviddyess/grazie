@@ -4,9 +4,8 @@
  * @license MIT see LICENSE
  */
 import { Grid } from '@mantine/core';
-import type { LoaderFunctionArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import type { Route } from './+types/post_.$slug';
+import { useLoaderData } from 'react-router';
 import Post from '~/components/Post/Post';
 import { getPost } from '~/lib/post.server';
 import { site } from '@/grazie';
@@ -45,7 +44,7 @@ export function meta({
   });
 }
 
-export async function loader({ params, request }: LoaderFunctionArgs) {
+export async function loader({ params, request }: Route.LoaderArgs) {
   if (!request?.ability) {
     await createAbility(request);
   }
@@ -62,7 +61,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       limit: 10
     })
   };
-  return json(data);
+  return data;
 }
 
 export default function PostView() {

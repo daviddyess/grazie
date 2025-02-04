@@ -3,8 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import type { LoaderFunctionArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
+import type { LoaderFunctionArgs } from 'react-router';
 import { getPages } from '~/lib/page.server';
 import { site } from '@/grazie';
 import { pagerParams } from '~/utils/searchParams.server';
@@ -42,7 +41,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const data = { pages, pager: pagerLoader(pages.totalCount) };
 
-  return json(data);
+  return data;
 }
 
 export default PagesList;

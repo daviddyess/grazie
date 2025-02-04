@@ -74,6 +74,7 @@ export default {
   session,
   aws,
   linode,
+  mail,
   s3Provider,
   s3Providers,
   storageURL,

@@ -4,9 +4,8 @@
  * @license MIT see LICENSE
  */
 import { Title, Grid, Tabs, SimpleGrid } from '@mantine/core';
-import type { LoaderFunctionArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData, useNavigate } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import NoteCard from '~/components/Note/NoteCard';
 import { getNotes } from '~/lib/note.server';
 import { pagerParams } from '~/utils/searchParams.server';
@@ -46,7 +45,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   });
   const data = { notes, pager: pagerLoader(notes.totalCount) };
 
-  return json(data);
+  return data;
 }
 
 export default function Articles() {

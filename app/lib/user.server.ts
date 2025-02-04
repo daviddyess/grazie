@@ -1,17 +1,19 @@
 /**
  * Grazie
  * @package Grazie
- * @copyright Copyright (c) 2024 David Dyess II
+ * @copyright Copyright (c) 2024-2025 David Dyess II
  * @license MIT see LICENSE
  */
-import bcrypt from 'bcrypt';
 import { getLogger } from '~/utils/logger.server';
 import { avatarURL, admins } from '~/utils/config.server';
 import { prisma } from '~/utils/prisma.server';
-import { timeString } from '~/utils/generic.server';
+import { randomNumber, timeString } from '~/utils/generic.server';
 import type { User, UserLogin, UserSystem } from '~/types/User';
 import { setting } from '~/lib/setting.server';
+import { hashPassword, verifyPassword } from '~/utils/hashPassword.server';
 import { processAvatar } from '~/utils/image.server';
+import DataCache from '~/utils/dataCache.server';
+import { sendMail, userResetRequest } from '~/utils/mailer.server';
 
 const log = getLogger('User');
 /**
@@ -55,8 +57,8 @@ export async function createUser({
       displayName = username as string;
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password as string, salt);
+    const hashedPassword = await hashPassword(password as string);
+
     const date = timeString();
     let user;
     await prisma.$transaction(async (db) => {
@@ -201,7 +203,7 @@ export async function updateUser({
       data.email = email;
     }
     if (currentPassword && newPassword) {
-      const verification = await bcrypt.compare(
+      const verification = await verifyPassword(
         currentPassword,
         prevUser.password
       );
@@ -210,7 +212,7 @@ export async function updateUser({
         error.currentPassword = 'Incorrect Password';
       }
 
-      data.password = newPassword;
+      data.password = await hashPassword(newPassword);
     }
     if (Object.keys(errors).length > 0) {
       return { errors };
@@ -272,8 +274,16 @@ export async function userLogin({ email, password }: UserLogin) {
     if (!login) {
       return { errors: { email: 'Email Address is not registered' } };
     }
+    //console.log(await hashPassword(password));
 
-    const verification = await bcrypt.compare(password, login.password);
+    let verification;
+
+    try {
+      verification = await verifyPassword(password, login.password);
+    } catch (err) {
+      console.log(err);
+      return { errors: { status: 'RESET_REQUIRED' } };
+    }
 
     if (!verification) {
       return { errors: { password: 'Incorrect Password' } };
@@ -301,6 +311,74 @@ export async function userLogin({ email, password }: UserLogin) {
     throw err;
   }
 }
+export async function requestReset({ email }: { email: string }) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true
+      }
+    });
+
+    if (!user) {
+      return { errors: { email: 'Email Address is not registered' } };
+    }
+
+    const resetKey = `${randomNumber(8, true)}`;
+
+    DataCache.set(`resetKey-${email}-${resetKey}`, user.id);
+    await sendMail(userResetRequest({ resetKey, ...user }));
+    return true;
+  } catch (err: any) {
+    log.error(err.message);
+    log.error(err.stack);
+    throw err;
+  }
+}
+export async function resetPassword({ email, resetKey, password }) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true
+      }
+    });
+
+    if (!user) {
+      return { errors: { email: 'User was not Found!' } };
+    }
+
+    const verification = DataCache.get(`resetKey-${email}-${resetKey}`);
+
+    if (!verification || verification !== user.id) {
+      return { errors: { resetKey: 'Incorrect Reset Key' } };
+    }
+
+    await prisma.user.update({
+      where: {
+        id: user.id
+      },
+      data: {
+        password: await hashPassword(password)
+      }
+    });
+
+    return true;
+  } catch (err: any) {
+    log.error(err.message);
+    log.error(err.stack);
+    throw err;
+  }
+}
+
 /**
  * Get User by ID
  * @param id
@@ -428,70 +506,6 @@ export async function getUserAccount(id: User['id']) {
     log.error(err.message);
     log.error(err.stack);
     throw err;
-  }
-}
-/**
- * Get User
- * @param User
- * @returns object User
- */
-export async function getUser({
-  id,
-  username,
-  userId
-}: {
-  id: string | undefined;
-  username: string | undefined;
-  userId: string | undefined;
-}) {
-  try {
-    if (id) {
-      // Used for administration
-      return await users.document(id);
-    }
-    let connection;
-    if (username) {
-      // Used for User page
-      if (userId) {
-        connection = aql`LET connections = (
-          FOR connection, edge IN OUTBOUND user ${hasConnection}
-            
-            OPTIONS {
-              bfs: true,
-              uniqueVertices: 'global'
-            }
-            FILTER connection._key == ${userId}
-          RETURN { status: edge.status, createdAt: edge.createdAt, updatedAt: edge.updatedAt }
-        )`;
-      } else {
-        connection = aql`LET connections = [{}]`;
-      }
-      const data = await db.query(
-        aql`
-          FOR user IN ${users}
-            FILTER user.username == ${username}
-            LIMIT 1
-            ${connection}
-            RETURN {
-              "id" : user._key,
-              "username" : user.username,
-              "createdAt" : user.createdAt,
-              "updatedAt" : user.updatedAt,
-              "connection" : connections[0],
-              "avatar" : user.avatar
-            }`
-      );
-      const user = await data.next();
-
-      user.connected = Boolean(user?.connection?.status === 'Active');
-      user.avatar = `${avatarURL}md/${user?.avatar}`;
-
-      return user;
-    }
-  } catch (error: any) {
-    log.error(error.message);
-    log.error(error.stack);
-    throw error;
   }
 }
 /**

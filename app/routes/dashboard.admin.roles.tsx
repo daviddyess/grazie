@@ -4,8 +4,8 @@
  * @license MIT see LICENSE
  */
 import { ActionIcon, Box, Button, Group, Table, Title } from '@mantine/core';
-import { LoaderFunctionArgs, json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import {
   IconCheck,
   IconEdit,
@@ -39,11 +39,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     offset: page ? (page - 1) * count : 0
   };
   const roles = await getRoles(query);
-  return json({
+  return {
     _page: 'dashboard',
     roles,
     pager: pagerLoader(roles.totalCount)
-  });
+  };
 }
 
 const actionIconStyle = unifiedStyles.icons.action.style;

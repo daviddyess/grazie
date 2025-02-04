@@ -13,6 +13,15 @@ export type ThemeContextType = {
   data?: {
     footer: { links: { to: string; label: string } };
     navbar: { links: { to: string; label: string } };
+    site: {
+      name: string;
+      copyright: string | number;
+      slogan: string;
+      description: string;
+      url: string;
+      owner: string;
+      separator: string;
+    };
   };
 };
 

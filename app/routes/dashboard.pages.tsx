@@ -4,8 +4,8 @@
  * @license MIT see LICENSE
  */
 import { ActionIcon, Box, Button, Group, Table, Title } from '@mantine/core';
-import { LoaderFunctionArgs, json } from '@remix-run/node';
-import { useLoaderData, useNavigate } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import {
   IconArrowUpRight,
   IconEdit,
@@ -18,7 +18,7 @@ import PageEditor from '~/components/Page/Editor';
 import Pager from '~/components/Pager/Pager';
 import { getPages } from '~/lib/page.server';
 import { sentry } from '~/lib/sentry.server';
-import { Page } from '~/types/Page';
+import type { Page } from '~/types/Page';
 import { pagerParams } from '~/utils/searchParams.server';
 import { createAbility, getUserId } from '~/utils/session.server';
 
@@ -40,11 +40,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     subject: 'Page',
     items: pages?.nodes
   });
-  return json({
+  return {
     _page: 'dashboard',
     pages,
     pager: pagerLoader(pages.totalCount)
-  });
+  };
 }
 
 export default function PageUser() {

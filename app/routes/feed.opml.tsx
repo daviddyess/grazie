@@ -1,5 +1,5 @@
 import { Opml } from '@gaphub/feed';
-import { LoaderFunctionArgs } from '@remix-run/node';
+import type { LoaderFunctionArgs } from 'react-router';
 import { site } from '@/grazie';
 import { createAbility } from '~/utils/session.server';
 

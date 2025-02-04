@@ -19,7 +19,7 @@ import {
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import '@mantine/tiptap/styles.layer.css';
-import { Form, useLoaderData, useNavigate, useSubmit } from '@remix-run/react';
+import { Form, useLoaderData, useNavigate, useSubmit } from 'react-router';
 import type { JSONContent } from '@tiptap/core';
 import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
@@ -73,7 +73,7 @@ const PostEditor = ({
       search,
       title,
       slug,
-      slugFormat: slug ? null : (slugFormat ?? 'title-id'),
+      slugFormat: slug ? null : slugFormat ?? 'title-id',
       categories:
         categories && categories?.length > 0
           ? categories.map((cat) => cat.category.name)
@@ -225,7 +225,7 @@ const PostEditor = ({
                   placeholder={
                     form.values.slugFormat === 'custom'
                       ? 'Add a Custom URL Slug'
-                      : (form.values?.slug ?? 'System Generated')
+                      : form.values?.slug ?? 'System Generated'
                   }
                   {...form.getInputProps('slug')}
                   onChange={({ currentTarget: { value } }) =>

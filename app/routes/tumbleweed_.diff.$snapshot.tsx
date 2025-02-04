@@ -1,4 +1,4 @@
-import { json, LoaderFunctionArgs } from '@remix-run/node';
+import type { LoaderFunctionArgs } from 'react-router';
 import { getSnapshotDiff } from '~/lib/tumbleweed';
 import { createAbility } from '~/utils/session.server';
 
@@ -11,5 +11,5 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const changes = await getSnapshotDiff(snapshot);
 
-  return json({ changes });
+  return { changes };
 }

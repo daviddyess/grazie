@@ -4,7 +4,7 @@
  * @license MIT see LICENSE
  */
 import { Title, Grid, Tabs } from '@mantine/core';
-import { useLoaderData, useNavigate } from '@remix-run/react';
+import { useLoaderData, useNavigate } from 'react-router';
 import PageCard from '~/components/Page/PageCard';
 import Pager from '~/components/Pager/Pager';
 import { subject, useAbility } from '~/hooks/useAbility';

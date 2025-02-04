@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { LoaderFunctionArgs, json } from '@remix-run/node';
+import type { LoaderFunctionArgs } from 'react-router';
 import { getComments } from '~/lib/comment.server';
 import { sentry } from '~/lib/sentry.server';
 import { createAbility } from '~/utils/session.server';
@@ -33,5 +33,5 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const data = {
     comments: postId ? comments : []
   };
-  return json(data);
+  return data;
 }

@@ -4,7 +4,7 @@
  * @license MIT see LICENSE
  */
 import { ActionIcon, rem } from '@mantine/core';
-import { Link } from '@remix-run/react';
+import { Link } from 'react-router';
 import {
   IconBrandTwitter,
   IconBrandYoutube,

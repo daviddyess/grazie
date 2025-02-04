@@ -25,7 +25,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import '@mantine/tiptap/styles.layer.css';
-import { Form, useLoaderData, useNavigate, useSubmit } from '@remix-run/react';
+import { Form, useLoaderData, useNavigate, useSubmit } from 'react-router';
 import type { JSONContent } from '@tiptap/core';
 import type { Dispatch, SetStateAction } from 'react';
 import { Fragment, useState } from 'react';

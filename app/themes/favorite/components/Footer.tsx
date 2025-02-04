@@ -1,4 +1,4 @@
-import { Group, ActionIcon, rem, Text } from '@mantine/core';
+import { Group, ActionIcon, rem, Text, Stack } from '@mantine/core';
 import {
   IconBrandTwitter,
   IconBrandYoutube,
@@ -18,13 +18,15 @@ export function Footer() {
   return (
     <div className={classes.footer}>
       <div className={classes.inner}>
-        <Text fw={500} size="md">
-          {site?.name ?? defaultSite?.name ?? 'Site Name'}
-          <Text size="xs" color="dimmed">
+        <Stack gap="xs">
+          <Text fw={500} size="md">
+            {site?.name ?? defaultSite?.name ?? 'Site Name'}
+          </Text>
+          <Text size="xs" c="dimmed">
             Copyright &copy;{' '}
             {site?.copyright ?? defaultSite?.copyright ?? 'Copyright'}
           </Text>
-        </Text>
+        </Stack>
         <Group className={classes.links}>
           <FooterLinks />
         </Group>

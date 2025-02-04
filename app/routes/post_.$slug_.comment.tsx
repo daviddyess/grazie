@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { ActionFunctionArgs } from '@remix-run/node';
+import type { ActionFunctionArgs } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
 import { createComment, updateComment } from '~/lib/comment.server';
 import { sentry } from '~/lib/sentry.server';

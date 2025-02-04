@@ -4,7 +4,7 @@
  * @license MIT see LICENSE
  */
 import { Fragment } from 'react/jsx-runtime';
-import { Link } from '@remix-run/react';
+import { Link } from 'react-router';
 import { subject, useAbility } from '~/hooks/useAbility';
 import { useTheme } from '~/hooks/useTheme';
 import useUser from '~/hooks/useUser';

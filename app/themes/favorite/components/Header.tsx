@@ -19,7 +19,7 @@ import {
   useMantineTheme
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Link, useLocation, useNavigate } from '@remix-run/react';
+import { Link, useLocation, useNavigate, type To } from 'react-router';
 import {
   IconChevronDown,
   IconFriends,
@@ -39,7 +39,6 @@ import useUser from '~/hooks/useUser';
 import classes from '~/themes/favorite/styles/Header.module.css';
 import { useTheme } from '~/hooks/useTheme';
 import { NavLinks } from '~/components/NavLinks';
-import { To } from 'react-router';
 import { site as defaultSite } from '@/grazie';
 
 const userMenuData = [

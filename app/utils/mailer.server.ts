@@ -4,8 +4,9 @@
  * @license MIT see LICENSE
  */
 import nodemailer from 'nodemailer';
-import { mail } from '~/config.server';
-import { getLogger } from 'logade';
+import { mail } from '~/utils/config.server';
+import { getLogger } from '~/utils/logger.server';
+import { site } from '@/grazie';
 
 const log = getLogger('Mailer Module');
 
@@ -104,12 +105,12 @@ export const userWelcome = ({
  * @param {options} param0
  * @returns
  */
-export const userReset = ({
-  subject = `Reset Your BeSquishy Account`,
+export const userResetRequest = ({
+  subject = `Reset Your ${site.name} Account`,
   id,
   username,
   email,
-  url = `https://besquishy.com/user/reset`,
+  url = `${site.url}/user/reset`,
   resetKey
 }) => {
   if (!username || !email || !id) {
@@ -123,8 +124,13 @@ export const userReset = ({
     subject,
     html: `
       <p><b>User:</b> ${username}</p>
-      <p><b>Forgot your BeSquishy password? No problem! Please use the link below to reset your password.</b></p>
-      <p><a href="${url}/${id}/${resetKey}">Click here to reset your password</a><p>
+      <p><b>Need to reset your ${
+        site.name
+      } password? No problem! Please use the link below to continue.</b></p>
+      <p><a href="${url}?id=${btoa(
+      JSON.stringify([email, resetKey])
+    )}">Click here to reset your password</a><p>
+    <p>Reset Code: ${resetKey}</p>
     `
   };
 };
@@ -151,6 +157,6 @@ export default {
   support,
   sendMail,
   userActivation,
-  userReset,
+  userResetRequest,
   userWelcome
 };

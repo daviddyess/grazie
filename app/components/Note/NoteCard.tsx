@@ -15,7 +15,7 @@ import {
   Tooltip,
   useMantineTheme
 } from '@mantine/core';
-import { Link } from '@remix-run/react';
+import { Link } from 'react-router';
 import { IconHeart, IconBookmark, IconShare } from '@tabler/icons-react';
 import { TimeSince } from '~/components/DateTime';
 import HTMLContent from '~/components/Tiptap/HTMLContent';

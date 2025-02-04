@@ -1,11 +1,11 @@
 import { Anchor, AppShell, Burger, Group, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Link } from '@remix-run/react';
-import type { ReactNode } from 'react';
+import { Link } from '@react-router/react';
+import React from 'react';
 import Navbar from '~/components/Dashboard/Navbar';
 import { useTheme } from '~/hooks/useTheme';
 
-export function Dashboard({ children }: { children: ReactNode }) {
+export function Dashboard({ children }: { children: React.ReactNode }) {
   const [opened, { toggle }] = useDisclosure();
   const {
     data: { site }

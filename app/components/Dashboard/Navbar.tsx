@@ -18,7 +18,7 @@ import {
   IconUserCog
 } from '@tabler/icons-react';
 import classes from '~/components/Dashboard/Navbar.module.css';
-import { Link, useMatches, useNavigate } from '@remix-run/react';
+import { Link, useMatches, useNavigate } from 'react-router';
 import useUser from '~/hooks/useUser';
 import { Can } from '~/components/Can';
 

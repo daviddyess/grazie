@@ -4,7 +4,7 @@
  * @license MIT see LICENSE
  */
 import { subject, useAbility } from '~/hooks/useAbility';
-import { Link } from '@remix-run/react';
+import { Link } from 'react-router';
 import { useTheme } from '~/hooks/useTheme';
 import { Fragment } from 'react/jsx-runtime';
 import { Anchor } from '@mantine/core';

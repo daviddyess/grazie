@@ -4,15 +4,14 @@
  * @license MIT see LICENSE
  */
 import { Grid } from '@mantine/core';
-import type { LoaderFunctionArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData, useNavigate } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import Page from '~/components/Page/Page';
 import { getPage } from '~/lib/page.server';
 import { SEO } from '~/utils/meta';
 import { createAbility } from '~/utils/session.server';
 import { sentry } from '~/lib/sentry.server';
-import { Page as PageType } from '~/types/Page';
+import type { Page as PageType } from '~/types/Page';
 
 export function meta({
   data: {
@@ -50,7 +49,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   }
 
   const data = { page };
-  return json(data);
+  return data;
 }
 
 export default function PageView() {

@@ -42,7 +42,7 @@ export const SEO = ({
     { keywords: meta?.seo?.keywords },
     {
       property: 'og:title',
-      content: !empty(meta?.seo?.title) ? meta?.seo?.title : (title ?? 'Page')
+      content: !empty(meta?.seo?.title) ? meta?.seo?.title : title ?? 'Page'
     },
     { property: 'og:type', content: 'article' },
     { name: 'author', property: 'og:author', content: author },

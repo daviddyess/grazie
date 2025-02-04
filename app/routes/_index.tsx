@@ -5,12 +5,12 @@
  */
 import { Grid, SimpleGrid, Tabs } from '@mantine/core';
 import {
-  json,
-  LoaderFunctionArgs,
   redirect,
+  useLoaderData,
+  useNavigate,
   type MetaFunction
-} from '@remix-run/node';
-import { useLoaderData, useNavigate } from '@remix-run/react';
+} from 'react-router';
+import type { Route } from './+types/_index';
 import Pager from '~/components/Pager/Pager';
 import PostCard from '~/components/Post/PostCard';
 import { subject, useAbility } from '~/hooks/useAbility';
@@ -35,7 +35,7 @@ export const meta: MetaFunction = ({ matches }) => {
   });
 };
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader({ request }: Route.LoaderArgs) {
   if (!request?.ability) {
     await createAbility(request);
   }
@@ -77,7 +77,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     pager: pagerLoader(posts.totalCount)
   };
 
-  return json(data);
+  return data;
 }
 
 export default function Index() {

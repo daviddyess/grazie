@@ -3,14 +3,14 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { useMatches, useRouteLoaderData } from '@remix-run/react';
-import { ReactNode, useEffect, useState } from 'react';
+import { useMatches, useRouteLoaderData } from 'react-router';
+import React, { useEffect, useState } from 'react';
 import { ThemeContext } from '~/hooks/useTheme';
 import useMatchesData from '~/hooks/useMatchesData';
 import { themeName, pageName, Theme, Pages } from '@/grazie';
 import { notifications } from '@mantine/notifications';
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const matches = useMatches();
   const { id } = matches[matches.length - 1];
   const loader = useRouteLoaderData(id);

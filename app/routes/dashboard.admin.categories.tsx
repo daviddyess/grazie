@@ -4,14 +4,14 @@
  * @license MIT see LICENSE
  */
 import { ActionIcon, Box, Button, Stack, Table, Title } from '@mantine/core';
-import { LoaderFunctionArgs, json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import { IconEdit, IconSquarePlus } from '@tabler/icons-react';
 import { Fragment, useState } from 'react';
 import classes from '~/components/Dashboard/AdminPost.module.css';
 import CategoryEditor from '~/components/Category/Editor';
 import { getCategories } from '~/lib/category.server';
-import { Category } from '~/types/Category';
+import type { Category } from '~/types/Category';
 import { pagerParams } from '~/utils/searchParams.server';
 import Pager from '~/components/Pager/Pager';
 import { createAbility } from '~/utils/session.server';
@@ -30,11 +30,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     offset: page ? (page - 1) * count : 0
   };
   const categories = await getCategories(query);
-  return json({
+  return {
     _page: 'dashboard',
     categories,
     pager: pagerLoader(categories.totalCount)
-  });
+  };
 }
 
 export default function CategoryAdmin() {

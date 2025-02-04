@@ -4,7 +4,7 @@
  * @license MIT see LICENSE
  */
 import Joi from 'joi';
-import { CategoryPost } from './CategoryPost';
+import { type CategoryPost } from './CategoryPost';
 import { joiResolver } from 'mantine-form-joi-resolver';
 
 export type PostInput = {
