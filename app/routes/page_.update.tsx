@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import type { ActionFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
+import type { ActionFunctionArgs } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
 import { getPage, updatePage } from '~/lib/page.server';
 import { createAbility } from '~/utils/session.server';

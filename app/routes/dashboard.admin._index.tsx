@@ -12,8 +12,8 @@ import {
   Text,
   Title
 } from '@mantine/core';
-import { LoaderFunctionArgs, json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import { system } from '~/lib/resource.server';
 import { sentry } from '~/lib/sentry.server';
 import { createAbility } from '~/utils/session.server';
@@ -25,7 +25,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   await sentry(request, { action: 'manage', subject: 'Dashboard' });
   const systemInfo = await system();
-  return json({ _page: 'dashboard', systemInfo });
+  return { _page: 'dashboard', systemInfo };
 }
 
 export default function DashboardAdmin() {

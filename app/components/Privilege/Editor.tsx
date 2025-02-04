@@ -15,7 +15,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import '@mantine/tiptap/styles.layer.css';
-import { Form, useSubmit } from '@remix-run/react';
+import { Form, useSubmit } from 'react-router';
 import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
 import { DebugCollapse } from '../DebugCollapse';

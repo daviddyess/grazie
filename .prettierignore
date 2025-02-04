@@ -1,9 +1,7 @@
 node_modules
 
 /build
-/public/build
-.env
 
-**/*.css
+.env
 
 /prisma

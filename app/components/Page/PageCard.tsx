@@ -13,7 +13,7 @@ import {
   Text,
   useMantineTheme
 } from '@mantine/core';
-import { Link } from '@remix-run/react';
+import { Link } from 'react-router';
 import { IconShare, IconClipboardCheck } from '@tabler/icons-react';
 import { TimeSince } from '~/components/DateTime';
 import classes from '~/components/Page/PageCard.module.css';

@@ -12,8 +12,8 @@ import {
   Table,
   Title
 } from '@mantine/core';
-import { LoaderFunctionArgs, json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import { IconEdit, IconSquarePlus } from '@tabler/icons-react';
 import { Fragment, useState } from 'react';
 import classes from '~/components/Dashboard/AdminPost.module.css';
@@ -29,7 +29,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   await sentry(request, { action: 'manage', subject: 'Setting' });
   const settings = await getSettings({});
-  return json({ _page: 'dashboard', settings });
+  return { _page: 'dashboard', settings };
 }
 
 export default function UserAdmin() {

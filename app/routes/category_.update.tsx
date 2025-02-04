@@ -3,8 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
-import { json } from '@remix-run/node'; // or cloudflare/deno
+import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
 import { updateCategory, getCategories } from '~/lib/category.server';
 import { sentry } from '~/lib/sentry.server';
@@ -28,7 +27,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const data = { categories };
 
-  return json(data);
+  return data;
 }
 
 export async function action({ request }: ActionFunctionArgs) {

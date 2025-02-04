@@ -4,9 +4,8 @@
  * @license MIT see LICENSE
  */
 import { Title, Grid, Tabs } from '@mantine/core';
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
-import { json } from '@remix-run/node'; // or cloudflare/deno
-import { useLoaderData, useNavigate } from '@remix-run/react';
+import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
 import Editor from '~/components/Editor';
 import { createPage } from '~/lib/page.server';
@@ -26,7 +25,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   await sentry(request, { action: 'create', subject: 'Page' });
   const data = {};
 
-  return json(data);
+  return data;
 }
 
 export async function action({ request }: ActionFunctionArgs) {

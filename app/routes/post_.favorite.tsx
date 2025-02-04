@@ -3,8 +3,8 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { ActionFunctionArgs } from '@remix-run/node';
-import { jsonWithToast } from 'remix-toast';
+import type { ActionFunctionArgs } from 'react-router';
+import { dataWithToast } from 'remix-toast';
 
 import { createOrRemoveFavorite, getPost } from '~/lib/post.server';
 import { sentry } from '~/lib/sentry.server';
@@ -28,22 +28,22 @@ export async function action({ request }: ActionFunctionArgs) {
       postId
     });
     if (favorite?.created) {
-      return jsonWithToast(favorite, {
+      return dataWithToast(favorite, {
         message: `Favorite Created!`,
         type: 'success'
       });
     } else if (favorite?.removed) {
-      return jsonWithToast(favorite, {
+      return dataWithToast(favorite, {
         message: `Favorite Removed!`,
         type: 'success'
       });
     } else {
-      return jsonWithToast(favorite, {
+      return dataWithToast(favorite, {
         message: `Favorite Error!`,
         type: 'error'
       });
     }
   } else {
-    return jsonWithToast({}, { message: `Favorite Error!`, type: 'error' });
+    return dataWithToast({}, { message: `Favorite Error!`, type: 'error' });
   }
 }

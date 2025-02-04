@@ -4,9 +4,8 @@
  * @license MIT see LICENSE
  */
 import { Title, Grid, Tabs } from '@mantine/core';
-import type { LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
-import { json } from '@remix-run/node'; // or cloudflare/deno
-import { useNavigate } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useNavigate } from 'react-router';
 import Editor from '~/components/Editor';
 import { getCategories } from '~/lib/category.server';
 import { getPost } from '~/lib/post.server';
@@ -42,7 +41,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
   await sentry(request, { action: 'update', subject: 'Post', item: post });
   const data = { categories, post, _page: 'post' };
-  return json(data);
+  return data;
 }
 
 export default function ArticlesCreate() {

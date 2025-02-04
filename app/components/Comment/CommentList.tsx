@@ -10,7 +10,7 @@ import { Comment } from '~/types/Comment';
 import CommentEditor from './Editor';
 import { IconSquarePlus } from '@tabler/icons-react';
 import { subject, useAbility } from '~/hooks/useAbility';
-import { useFetcher, useSearchParams } from '@remix-run/react';
+import { useFetcher, useSearchParams } from 'react-router';
 import { useInViewport } from '@mantine/hooks';
 
 export function CommentList({

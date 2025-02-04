@@ -1,5 +1,5 @@
 import { Feed } from '@gaphub/feed';
-import { LoaderFunctionArgs } from '@remix-run/node';
+import type { LoaderFunctionArgs } from 'react-router';
 import { getPosts } from '~/lib/post.server';
 import { sentry } from '~/lib/sentry.server';
 import { pagerParams } from '~/utils/searchParams.server';
@@ -29,7 +29,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const feed = new Feed({
     title: site?.name ?? '',
     description: site?.description,
-    id: `${site.url}/feed.json`,
+    id: `${site.url}/feed.atom`,
     link: `${site.url}`,
     language: 'en',
     image: `${site.url}/logo.png`,
@@ -79,8 +79,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     });
   });
 
-  return new Response(feed.json1(), {
+  return new Response(feed.atom1(), {
     status: 200,
-    headers: { 'Content-Type': 'application/feed+json' }
+    headers: { 'Content-Type': 'application/atom+xml' }
   });
 }

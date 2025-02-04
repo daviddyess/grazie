@@ -11,12 +11,11 @@ import {
   Text,
   Title
 } from '@mantine/core';
-import {
-  json,
+import type {
   LinksFunction,
   LoaderFunctionArgs,
   MetaFunction
-} from '@remix-run/node';
+} from 'react-router';
 import { getSnapshotData } from '~/lib/tumbleweed';
 import { system } from '~/lib/resource.server';
 import { createAbility } from '~/utils/session.server';
@@ -26,7 +25,7 @@ import {
   useLoaderData,
   useParams,
   useSearchParams
-} from '@remix-run/react';
+} from 'react-router';
 import { useEffect, useState } from 'react';
 import {
   IconClockCheck,
@@ -81,7 +80,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const snapshots = await getSnapshotData();
 
-  return json({ snapshots, systemInfo });
+  return { snapshots, systemInfo };
 }
 
 export default function TumbleweedSnapshots() {

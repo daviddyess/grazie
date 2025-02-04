@@ -12,8 +12,8 @@ import {
   Text,
   Title
 } from '@mantine/core';
-import { LoaderFunctionArgs, json } from '@remix-run/node';
-import { useLoaderData, useNavigate } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import {
   IconArrowUpRight,
   IconEdit,
@@ -26,7 +26,7 @@ import Pager from '~/components/Pager/Pager';
 import PostEditor from '~/components/Post/Editor';
 import { getPosts } from '~/lib/post.server';
 import { sentry } from '~/lib/sentry.server';
-import { Post } from '~/types/Post';
+import type { Post } from '~/types/Post';
 import { pagerParams } from '~/utils/searchParams.server';
 import { createAbility } from '~/utils/session.server';
 
@@ -43,11 +43,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     offset: page ? (page - 1) * count : 0
   };
   const posts = await getPosts(query);
-  return json({
+  return {
     _page: 'dashboard',
     posts,
     pager: pagerLoader(posts.totalCount)
-  });
+  };
 }
 
 export default function PostAdmin() {

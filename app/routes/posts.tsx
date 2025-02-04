@@ -3,8 +3,8 @@
  * @copyright Copyright (c) 2024-2025 David Dyess II
  * @license MIT see LICENSE
  */
-import type { LoaderFunctionArgs } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+import type { LoaderFunctionArgs } from 'react-router';
+import { redirect } from 'react-router';
 import { getPosts } from '~/lib/post.server';
 import { pagerParams } from '~/utils/searchParams.server';
 import PostsList from '~/components/Post/PostsList';
@@ -52,7 +52,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const data = { posts, pager: pagerLoader(posts.totalCount) };
 
-  return json(data);
+  return data;
 }
 
 export default PostsList;

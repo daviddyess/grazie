@@ -4,14 +4,13 @@
  * @license MIT see LICENSE
  */
 import { Title, Grid, Tabs } from '@mantine/core';
-import { useLoaderData, useNavigate } from '@remix-run/react';
+import { useLoaderData, useNavigate } from 'react-router';
 import PostCard from '~/components/Post/PostCard';
 import Pager from '~/components/Pager/Pager';
 import { subject, useAbility } from '~/hooks/useAbility';
-import { loader } from '~/routes/posts';
 
 export default function PostsList() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderData();
   const navigate = useNavigate();
   const ability = useAbility();
 

@@ -1,12 +1,13 @@
-node_modules
+.DS_Store
+/node_modules/
 
-/.cache
-/build
-/public/build
+# React Router
+/.react-router/
+/build/
+
 .env
-
-/prisma/*
 
 **/*.db
 
-grazie.config.js
+grazie.config.ts
+

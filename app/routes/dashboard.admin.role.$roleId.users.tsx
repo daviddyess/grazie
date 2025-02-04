@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { LoaderFunctionArgs, json } from '@remix-run/node';
+import type { LoaderFunctionArgs } from 'react-router';
 import RoleUsersLoaderWrapper from '~/components/RoleUser/RoleUsersLoaderWrapper';
 import { getRoleUsers } from '~/lib/roleUser.server';
 import { sentry } from '~/lib/sentry.server';
@@ -18,7 +18,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const users = await getRoleUsers({
     roleId: Number(params.roleId)
   });
-  return json({ _page: 'dashboard', users });
+  return { _page: 'dashboard', users };
 }
 
 export default function RoleUserAdmin() {

@@ -22,7 +22,7 @@ import {
 } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from '@mantine/form';
-import { Form, useActionData, useSubmit } from '@remix-run/react';
+import { Form, useActionData, useSubmit } from 'react-router';
 import {
   IconEdit,
   IconUpload,

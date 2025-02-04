@@ -1,25 +1,16 @@
 # Welcome to the Grazie! Project
 
-Grazie! is a themeable, standalone, and general purpose publishing platform built with Remix, Prisma, Mantine, and an SQLite database.
+Grazie! is a themeable, standalone, and general purpose publishing platform built with React Router 7, Prisma, Mantine, and an SQLite database.
 
 - [Remix Docs](https://remix.run/docs)
 - [Prisma Docs](https://www.prisma.io/docs)
 
 ## Database
 
-Grazie! supports SQLite and has experimental PostgreSQL support (more database supported is planned). To select the database:
+Grazie! supports SQLite. To setup the database:
 
 1. Set .env `DATABASE_URL` variable:
-   - SQLite: `DATABASE_URL="file:../data/data.db"`
-   - PostgreSQL: `DATABASE_URL="postgresql://username:password@host:5432/database?schema=public"`
-
-Note: Replace `username`, `password`, `host`, `database` (and potentially schema=public) above with appropriate values
-
-2. Copy Prisma schema folder:
-   - SQLite: `/prisma-sqlite` as `/prisma`
-   - PostgreSQL: `/prisma-pg` as `/prisma`
-
-The primary limitation of PostgreSQL is it is currently limited to `string` columns when `json` columns would be more efficient. In the future I plan to add database adapters to mitigate this limitation and enable the possibility of NoSQL databases.
+   - `DATABASE_URL="file:../data/data.db"`
 
 Use of the `/data` folder for SQLite databases is optional, but recommended. If the `/data` folder is used for other purposes, internally, the name will be configurable, so you can obfuscate the folder name if you wish.
 
@@ -52,6 +43,12 @@ From your terminal:
 
 ```sh
 npm run dev
+```
+
+If you prefer not to use vite dev, you can run a development variation of the production server with a watcher:
+
+```sh
+npm run d
 ```
 
 This starts your app in development mode, rebuilding assets on file changes.
@@ -104,9 +101,18 @@ Now you'll need to pick a host to deploy it to.
 
 ### DIY
 
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
+If you're familiar with deploying Node applications, the built-in app server is production-ready.
 
-Make sure to deploy the output of `remix build`
+Make sure to deploy the output of `npm run build`
 
-- `build/`
-- `public/build/`
+```
+├── package.json
+├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
+├── build/
+│   ├── client/    # Static assets
+│   └── server/    # Server-side code
+```
+
+## Styling
+
+Grazie! comes with [Mantine](https://mantine.dev/).

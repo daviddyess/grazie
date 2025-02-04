@@ -4,8 +4,8 @@
  * @license MIT see LICENSE
  */
 import { Table, Title } from '@mantine/core';
-import { LoaderFunctionArgs, json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import classes from '~/components/Dashboard/AdminPost.module.css';
 import DateTime from '~/components/DateTime';
 import Pager from '~/components/Pager/Pager';
@@ -35,11 +35,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     offset: page ? (page - 1) * count : 0
   };
   const users = await getUsers(query);
-  return json({
+  return {
     _page: 'dashboard',
     users,
     pager: pagerLoader(users.totalCount)
-  });
+  };
 }
 
 export default function UserAdmin() {

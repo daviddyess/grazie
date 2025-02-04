@@ -16,7 +16,7 @@ import {
   rem,
   useMantineTheme
 } from '@mantine/core';
-import { Link, useSubmit } from '@remix-run/react';
+import { Link, useSubmit } from 'react-router';
 import {
   IconHeart,
   IconBookmark,
@@ -32,7 +32,7 @@ import {
 import { TimeSince } from '~/components/DateTime';
 import HTMLContent from '~/components/Tiptap/HTMLContent';
 import classes from '~/components/Post/PostCard.module.css';
-import { CategoryPost } from '~/types/CategoryPost';
+import { type CategoryPost } from '~/types/CategoryPost';
 import { useEffect, useMemo, useState } from 'react';
 import PostEditor from './Editor';
 import { unifiedStyles } from '~/utils/unify';

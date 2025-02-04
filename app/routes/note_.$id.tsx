@@ -4,9 +4,8 @@
  * @license MIT see LICENSE
  */
 import { Grid, Title } from '@mantine/core';
-import type { LoaderFunctionArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import Note from '~/components/Note/Note';
 import { getNote } from '~/lib/note.server';
 import { useState } from 'react';
@@ -49,7 +48,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const data = {
     note
   };
-  return json(data);
+  return data;
 }
 
 export default function NoteView() {

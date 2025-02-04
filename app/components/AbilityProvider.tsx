@@ -4,11 +4,11 @@
  * @license MIT see LICENSE
  */
 import { createMongoAbility } from '@casl/ability';
-import { ReactNode } from 'react';
+import React from 'react';
 import { AbilityContext } from '~/hooks/useAbility';
 import useMatchesData from '~/hooks/useMatchesData';
 
-export function AbilityProvider({ children }: { children: ReactNode }) {
+export function AbilityProvider({ children }: { children: React.ReactNode }) {
   const data = useMatchesData('root');
   const ability = createMongoAbility(data?.user?.abilities ?? []);
 

@@ -7,8 +7,8 @@ import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction
-} from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+} from 'react-router';
+import { redirect } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
 import { getSession, commitSession } from '~/utils/session.server';
 import { Register } from '~/components/Register';
@@ -47,13 +47,13 @@ export async function action({ request }: ActionFunctionArgs) {
   const errors = validateSchema(registerSchema, data);
 
   if (errors) {
-    return json({ errors, data });
+    return { errors, data };
   }
 
   const user = await createUser(data);
 
   if (user?.errors) {
-    return json({ errors: user.errors, data });
+    return { errors: user.errors, data };
   }
 
   session.set('userId', user.id);

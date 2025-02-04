@@ -16,7 +16,7 @@ import {
   rem,
   useMantineTheme
 } from '@mantine/core';
-import { Link, useNavigate, useSubmit } from '@remix-run/react';
+import { Link, useNavigate, useSubmit } from 'react-router';
 import {
   IconHeart,
   IconBookmark,
@@ -31,7 +31,7 @@ import {
 import { TimeSince } from '~/components/DateTime';
 import HTMLContent from '~/components/Tiptap/HTMLContent';
 import classes from '~/components/Post/PostCard.module.css';
-import { CategoryPost } from '~/types/CategoryPost';
+import { type CategoryPost } from '~/types/CategoryPost';
 import { useClipboard, useElementSize, useTimeout } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { notifications } from '@mantine/notifications';

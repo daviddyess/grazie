@@ -16,7 +16,7 @@ import {
   Button
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { Form, useActionData, useNavigate, useSubmit } from '@remix-run/react';
+import { Form, useActionData, useNavigate, useSubmit } from 'react-router';
 import classes from './Login.module.css';
 import { validateLogin } from '~/types/User';
 

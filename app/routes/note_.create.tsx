@@ -4,9 +4,8 @@
  * @license MIT see LICENSE
  */
 import { Title, Grid, Tabs } from '@mantine/core';
-import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'; // or cloudflare/deno
-import { json } from '@remix-run/node'; // or cloudflare/deno
-import { useNavigate } from '@remix-run/react';
+import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
+import { useNavigate } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
 import Editor from '~/components/Editor';
 import { getLabels, noteLabel } from '~/lib/label.server';
@@ -32,7 +31,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const labels = await getLabels({});
   const data = { labels };
 
-  return json(data);
+  return data;
 }
 
 export async function action({ request }: ActionFunctionArgs) {

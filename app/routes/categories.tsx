@@ -4,9 +4,7 @@
  * @license MIT see LICENSE
  */
 import { Title, Grid, Tabs } from '@mantine/core';
-import type { LoaderFunctionArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData, useNavigate } from '@remix-run/react';
+import { useLoaderData, useNavigate } from 'react-router';
 import CategoryCard from '~/components/Category/CategoryCard';
 import { subject, useAbility } from '~/hooks/useAbility';
 import { getCategories } from '~/lib/category.server';
@@ -35,7 +33,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   });
   const data = { categories };
 
-  return json(data);
+  return data;
 }
 
 export default function Categories() {

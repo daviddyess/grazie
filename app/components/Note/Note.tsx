@@ -16,7 +16,7 @@ import {
   rem,
   useMantineTheme
 } from '@mantine/core';
-import { Link, useSubmit } from '@remix-run/react';
+import { Link, useSubmit } from 'react-router';
 import {
   IconShare,
   IconDotsVertical,

@@ -5,7 +5,7 @@
  */
 import { getBreakpointValue, Paper, useMantineTheme } from '@mantine/core';
 import { useViewportSize } from '@mantine/hooks';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData } from 'react-router';
 import { lazy } from 'react';
 
 // Lazy Import Category Editor
