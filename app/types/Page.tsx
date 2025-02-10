@@ -20,7 +20,7 @@ export type PageInput = {
 };
 
 export type Page = {
-  id: string;
+  id: number;
   authorId: number;
   published: boolean;
   createdAt: number;
