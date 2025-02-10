@@ -85,18 +85,20 @@ export function Login() {
           />
           <Group justify="space-between" mt="lg">
             <Checkbox label="Remember me" />
-            <Anchor
-              component="button"
-              onClick={() => navigate('/user/reset')}
-              size="sm"
-            >
-              Forgot password?
-            </Anchor>
           </Group>
           <Button fullWidth mt="xl" type="submit">
             Sign in
           </Button>
         </Form>
+        <Group justify="space-between" mt="lg">
+          <Anchor
+            component="button"
+            onClick={() => navigate('/user/reset')}
+            size="sm"
+          >
+            Forgot password?
+          </Anchor>
+        </Group>
       </Paper>
     </Container>
   );
