@@ -274,7 +274,6 @@ export async function userLogin({ email, password }: UserLogin) {
     if (!login) {
       return { errors: { email: 'Email Address is not registered' } };
     }
-    //console.log(await hashPassword(password));
 
     let verification;
 

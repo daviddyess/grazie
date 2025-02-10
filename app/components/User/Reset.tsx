@@ -52,8 +52,6 @@ export function UserReset() {
     formRequest.setErrors(actionData.request.errors);
   }
 
-  console.log(reset);
-
   const formReset = useForm({
     validateInputOnBlur: true,
     validateInputOnChange: true,
