@@ -10,7 +10,7 @@ import { Form, useSubmit } from 'react-router';
 import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
 import { DebugCollapse } from '../DebugCollapse';
-import { User } from '~/types/User';
+import { type User } from '~/types/User';
 
 interface Editor {
   id: number;

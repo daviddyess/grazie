@@ -6,7 +6,7 @@
  */
 import { getLogger } from '~/utils/logger.server';
 import { prisma } from '~/utils/prisma.server';
-import { RoleUserInput } from '~/types/RoleUser';
+import { type RoleUserInput } from '~/types/RoleUser';
 import { timeString } from '~/utils/generic.server';
 
 const log = getLogger('Roles Query');

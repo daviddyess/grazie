@@ -6,7 +6,7 @@
  */
 import { getLogger } from '~/utils/logger.server';
 import { prisma } from '~/utils/prisma.server';
-import { RolePrivilegeInput } from '~/types/RolePrivilege';
+import { type RolePrivilegeInput } from '~/types/RolePrivilege';
 
 const log = getLogger('Roles Privileges Query');
 

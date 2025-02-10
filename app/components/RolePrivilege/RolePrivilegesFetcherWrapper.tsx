@@ -6,7 +6,7 @@
 import { useFetcher } from 'react-router';
 import RolePrivilegesTable from './RolePrivilegesTable';
 import { useEffect } from 'react';
-import { Role } from '~/types/Role';
+import { type Role } from '~/types/Role';
 
 export default function RoleUserAdmin({ role }: Role) {
   const fetcher = useFetcher();

@@ -25,7 +25,7 @@ import { IconJson } from '@tabler/icons-react';
 import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useState } from 'react';
 import { DebugCollapse } from '../DebugCollapse';
-import { Privilege } from '~/types/Privilege';
+import { type Privilege } from '~/types/Privilege';
 
 interface Editor {
   id?: number | null;

@@ -9,8 +9,8 @@ import RolePrivilegeEditor from '~/components/RolePrivilege/Editor';
 import RolePrivilegeDelete from '~/components/RolePrivilege/Delete';
 import { Fragment, useState } from 'react';
 import { IconEdit, IconSquarePlus, IconTrash } from '@tabler/icons-react';
-import { Role } from '~/types/Role';
-import { RolePrivilege } from '~/types/RolePrivilege';
+import { type Role } from '~/types/Role';
+import { type RolePrivilege } from '~/types/RolePrivilege';
 import { unifiedStyles } from '~/utils/unify';
 
 const actionIconStyle = unifiedStyles.icons.action.style;

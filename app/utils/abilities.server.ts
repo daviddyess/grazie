@@ -4,8 +4,8 @@
  * @license MIT see LICENSE
  */
 import { getUserRoles } from '~/lib/user.server';
-import { RolePrivilege } from '~/types/RolePrivilege';
-import { RoleUser } from '~/types/RoleUser';
+import { type RolePrivilege } from '~/types/RolePrivilege';
+import { type RoleUser } from '~/types/RoleUser';
 import { getLogger } from '~/utils/logger.server';
 
 const log = getLogger('Abilities Utility');

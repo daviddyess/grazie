@@ -5,7 +5,7 @@
  */
 import { Card, Group, Text, Title, useMantineTheme } from '@mantine/core';
 import classes from '~/components/Category/CategoryCard.module.css';
-import { Category } from '~/types/Category';
+import { type Category } from '~/types/Category';
 
 interface CategoryCardProps {
   categories?: Category[];

@@ -9,7 +9,7 @@ import { formatSlug } from '~/utils/formatSlug';
 import { timeString } from '~/utils/generic.server';
 import { prisma } from '~/utils/prisma.server';
 import type { Category, CategoryInput } from '~/types/Category';
-import { CategoryPostInput } from '~/types/CategoryPost';
+import { type CategoryPostInput } from '~/types/CategoryPost';
 
 const log = getLogger('Categories Query');
 

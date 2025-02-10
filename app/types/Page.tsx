@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-export interface PostInput {
+export type PageInput = {
   id?: number;
   authorId: number;
   published?: boolean;
@@ -17,9 +17,9 @@ export interface PostInput {
   search?: string;
   body: object | string;
   meta?: object;
-}
+};
 
-export interface Page {
+export type Page = {
   id: string;
   authorId: number;
   published: boolean;
@@ -32,4 +32,4 @@ export interface Page {
   search?: string;
   body: object;
   author: { displayName: string };
-}
+};

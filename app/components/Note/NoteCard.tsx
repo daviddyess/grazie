@@ -20,7 +20,7 @@ import { IconHeart, IconBookmark, IconShare } from '@tabler/icons-react';
 import { TimeSince } from '~/components/DateTime';
 import HTMLContent from '~/components/Tiptap/HTMLContent';
 import classes from '~/components/Note/NoteCard.module.css';
-import { NoteLabel } from '~/types/NoteLabel';
+import { type NoteLabel } from '~/types/NoteLabel';
 import { ListViewer } from './ListViewer';
 import { useElementSize } from '@mantine/hooks';
 
