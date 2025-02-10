@@ -185,7 +185,6 @@ export function UserReset() {
               </Button>
             </Form>
           </Paper>
-          <pre>{JSON.stringify(formReset.values, null, 2)}</pre>
         </>
       )}
     </Container>

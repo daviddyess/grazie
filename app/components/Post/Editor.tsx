@@ -24,7 +24,7 @@ import type { JSONContent } from '@tiptap/core';
 import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
 import MantineEditor from '~/components/Tiptap/Editor';
-import { DebugCollapse } from '../DebugCollapse';
+import { DebugCollapse } from '~/components/DebugCollapse';
 import { SEO } from '../SEO';
 
 type Editor = {
