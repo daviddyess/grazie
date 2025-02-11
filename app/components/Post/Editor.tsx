@@ -19,13 +19,19 @@ import {
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import '@mantine/tiptap/styles.layer.css';
-import { Form, useLoaderData, useNavigate, useSubmit } from 'react-router';
+import {
+  Form,
+  useFetcher,
+  useLoaderData,
+  useNavigate,
+  useSubmit
+} from 'react-router';
 import type { JSONContent } from '@tiptap/core';
 import type { Dispatch, SetStateAction } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MantineEditor from '~/components/Tiptap/Editor';
-import { DebugCollapse } from '../DebugCollapse';
-import { SEO } from '../SEO';
+import { DebugCollapse } from '~/components/DebugCollapse';
+import { SEO } from '~/components/SEO';
 
 type Editor = {
   id?: number | null;
@@ -95,7 +101,8 @@ const PostEditor = ({
   });
 
   const loaderData = useLoaderData();
-  const { categories: categoriesList } = loaderData;
+
+  const [categoriesList, setCategoriesList] = useState(loaderData?.categories);
 
   const [catSearchValue, setCatSearchValue] = useState('');
 
@@ -128,6 +135,22 @@ const PostEditor = ({
       </Button>
     ) : null;
   };
+
+  const fetcher = useFetcher();
+
+  useEffect(() => {
+    if (!categoriesList) {
+      if (fetcher.state === 'idle') {
+        fetcher.load(`/post/update`);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (fetcher.data) {
+      setCategoriesList(fetcher.data.categories);
+    }
+  }, [fetcher.data]);
 
   return (
     <Grid>

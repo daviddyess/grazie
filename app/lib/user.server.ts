@@ -274,14 +274,12 @@ export async function userLogin({ email, password }: UserLogin) {
     if (!login) {
       return { errors: { email: 'Email Address is not registered' } };
     }
-    //console.log(await hashPassword(password));
 
     let verification;
 
     try {
       verification = await verifyPassword(password, login.password);
     } catch (err) {
-      console.log(err);
       return { errors: { status: 'RESET_REQUIRED' } };
     }
 

@@ -9,7 +9,7 @@ import { formatSlug } from '~/utils/formatSlug';
 import { timeString } from '~/utils/generic.server';
 import { prisma } from '~/utils/prisma.server';
 import type { Label, LabelInput } from '~/types/Label';
-import { NoteLabelInput } from '~/types/NoteLabel';
+import { type NoteLabelInput } from '~/types/NoteLabel';
 
 const log = getLogger('Labels Query');
 

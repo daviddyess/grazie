@@ -52,8 +52,6 @@ export function UserReset() {
     formRequest.setErrors(actionData.request.errors);
   }
 
-  console.log(reset);
-
   const formReset = useForm({
     validateInputOnBlur: true,
     validateInputOnChange: true,
@@ -185,7 +183,6 @@ export function UserReset() {
               </Button>
             </Form>
           </Paper>
-          <pre>{JSON.stringify(formReset.values, null, 2)}</pre>
         </>
       )}
     </Container>

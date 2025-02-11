@@ -3,8 +3,8 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { Role } from '~/types/Role';
-import { User } from '~/types/User';
+import { type Role } from '~/types/Role';
+import { type User } from '~/types/User';
 
 export type RoleUser = {
   id?: number;

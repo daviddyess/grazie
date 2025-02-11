@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { NoteLabel } from './NoteLabel';
+import { type NoteLabel } from './NoteLabel';
 
 export type NoteInput = {
   id?: number;

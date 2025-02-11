@@ -12,7 +12,7 @@ export type UserInput = {
 };
 
 export type User = {
-  id?: number | null | undefined;
+  id?: number | null;
   createdAt?: string;
   updatedAt?: string;
   username?: string;

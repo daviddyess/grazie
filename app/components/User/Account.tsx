@@ -127,8 +127,8 @@ const Account = ({ account }) => {
   const add = (field, value = '') => {
     if (field === 'password') {
       setEdit({ ...edit, password: true });
-      form.setFieldValue('cpassword', value);
-      form.setFieldValue('npassword', value);
+      form.setFieldValue('currentPassword', value);
+      form.setFieldValue('newPassword', value);
     } else {
       setEdit({ ...edit, [field]: true });
       form.setFieldValue(field, value);
@@ -144,8 +144,8 @@ const Account = ({ account }) => {
   const remove = (field) => {
     if (field === 'password') {
       setEdit({ ...edit, password: false });
-      form.setFieldValue('cpassword', null);
-      form.setFieldValue('npassword', null);
+      form.setFieldValue('currentPassword', null);
+      form.setFieldValue('newPassword', null);
     } else {
       setEdit({ ...edit, [field]: false });
       form.setFieldValue(field, null);
@@ -355,13 +355,13 @@ const Account = ({ account }) => {
                 label="Current Password"
                 name="currentPassword"
                 placeholder="Current Password"
-                {...form.getInputProps('cpassword')}
+                {...form.getInputProps('currentPassword')}
               />
               <PasswordInput
                 label="New Password"
                 name="newPassword"
                 placeholder="New Password"
-                {...form.getInputProps('npassword')}
+                {...form.getInputProps('newPassword')}
               />
             </>
           ) : (

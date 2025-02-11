@@ -10,8 +10,8 @@ import DateTime from '~/components/DateTime';
 import classes from '~/components/Dashboard/AdminPost.module.css';
 import RoleUserDelete from '~/components/RoleUser/Delete';
 import RoleUserEditor from '~/components/RoleUser/Editor';
-import { Role } from '~/types/Role';
-import { RoleUser } from '~/types/RoleUser';
+import { type Role } from '~/types/Role';
+import { type RoleUser } from '~/types/RoleUser';
 import { unifiedStyles } from '~/utils/unify';
 
 const actionIconStyle = unifiedStyles.icons.action.style;

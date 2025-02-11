@@ -38,7 +38,10 @@ export default function PostsList() {
     <Grid>
       <Grid.Col span={12}>
         <Title order={2}>
-          {data?.category ? `${data?.category?.toUpperCase()} ` : ''}Posts
+          {data?.posts?.category
+            ? `${data?.posts?.category?.name?.toUpperCase()} `
+            : ''}
+          Posts
         </Title>
         <Tabs defaultValue="browse" keepMounted={false}>
           <Tabs.List>

@@ -59,6 +59,7 @@ export default [
   ...prefix('page', [
     route(':slug', 'routes/page_.$slug.tsx'),
     route('create', 'routes/page_.create.tsx'),
+    route('delete', 'routes/page_.delete.tsx'),
     route('update', 'routes/page_.update.tsx')
   ]),
   route('pages', 'routes/pages.tsx'),

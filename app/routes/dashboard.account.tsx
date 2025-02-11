@@ -47,7 +47,7 @@ export async function action({ request }: ActionFunctionArgs) {
     updates.email = email;
     schema.email = true;
   }
-  const currentPassword = form.get('currentPpassword') as string;
+  const currentPassword = form.get('currentPassword') as string;
   const newPassword = form.get('newPassword') as string;
 
   if (currentPassword && newPassword) {

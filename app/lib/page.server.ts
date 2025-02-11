@@ -5,11 +5,11 @@
  * @license MIT see LICENSE
  */
 import { getUserByUsername } from '~/lib/user.server';
+import type { Page, PageInput } from '~/types/Page';
 import { getLogger } from '~/utils/logger.server';
 import { formatSlug } from '~/utils/formatSlug';
 import { dateString, timeString } from '~/utils/generic.server';
 import { prisma } from '~/utils/prisma.server';
-import type { PageInput } from '~/types/Page';
 import { avatarURL } from '~/utils/config.server';
 
 const log = getLogger('Pages Query');
@@ -200,7 +200,27 @@ export async function updatePage({
   }
 }
 
-export async function getPage({ id, slug, select }) {
+export async function deletePage({ id }: { id: Page['id'] }) {
+  try {
+    if (await prisma.page.delete({ where: { id } })) {
+      return true;
+    }
+  } catch (error: any) {
+    log.error(error.message);
+    log.error(error.stack);
+    throw error;
+  }
+}
+
+export async function getPage({
+  id,
+  slug,
+  select
+}: {
+  id: Page['id'];
+  slug: Page['slug'];
+  select: object;
+}) {
   try {
     const where = {} as { id?: number; slug?: string };
 
@@ -250,12 +270,12 @@ export async function getPages({
   offset = 0
 }: {
   filter?: {
-    authorId?: number;
+    authorId?: number | null;
     username?: string;
     category?: string;
     published?: boolean;
   };
-  imit?: number;
+  limit?: number;
   offset?: number;
 }) {
   try {
@@ -266,7 +286,12 @@ export async function getPages({
     };
 
     if (filter?.username) {
-      where.authorId = await getUserByUsername(filter.username);
+      const author = await getUserByUsername(filter.username);
+      if (author) {
+        where.authorId = author.id;
+      } else {
+        throw new Error(`User ${filter.username} was not found`);
+      }
     }
 
     if (filter?.authorId) {

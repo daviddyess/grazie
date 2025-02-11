@@ -41,9 +41,9 @@ import { notifications } from '@mantine/notifications';
 import { subject, useAbility } from '~/hooks/useAbility';
 import useUser from '~/hooks/useUser';
 
-interface ArticleCardProps {
+type PageCardProps = {
   id: number;
-  image?: string;
+  avatarURL?: string;
   categories?: CategoryPost[];
   createdAt?: number;
   title: string;
@@ -51,9 +51,9 @@ interface ArticleCardProps {
   body: object;
   footer?: string;
   author: {
-    name: string;
+    displayName: string;
     description: string;
-    image: string;
+    avatar: string;
   };
   published?: boolean;
   updatedAt?: string;
@@ -63,49 +63,30 @@ interface ArticleCardProps {
   favorites?: [];
   favoritesCount?: number;
   viewsCount?: number;
-}
+};
 
 const actionIconStyle = unifiedStyles.icons.action.style;
 const actionIconStroke = unifiedStyles.icons.action.stroke;
 
-export default function Post({ data }: { data: ArticleCardProps }) {
-  const {
-    id,
-    image = '',
-    categories = [],
-    createdAt,
-    commentsCount = 0,
-    viewsCount,
-    body = {},
-    title = '',
-    slug,
-    footer = '',
-    author,
-    updatedAt = '',
-    published,
-    bookmarks,
-    bookmarksCount,
-    favorites,
-    favoritesCount
-  } = data;
+export default function Post({ post }: { post: PageCardProps }) {
   const theme = useMantineTheme();
   const ability = useAbility();
   const canEditPost = useMemo(
-    () => ability?.can('edit', subject('post', data)),
-    [ability]
+    () => ability?.can('edit', subject('Post', post)),
+    [ability, post]
   );
   const { isLoggedIn } = useUser();
-  const [openEditor, setOpenEditor] = useState(null);
+  const [openEditor, setOpenEditor] = useState(false);
   const submit = useSubmit();
   const clipboard = useClipboard();
   const [copied, setCopied] = useState(false);
   const { start } = useTimeout(() => setCopied(false), 3000);
-  const [shareLink, setShareLink] = useState();
+  const [shareLink, setShareLink] = useState('');
   useEffect(() => {
     setShareLink(
-      `${window.location.protocol}//${window.location.host}/post/${slug}`
+      `${window.location.protocol}//${window.location.host}/post/${post?.slug}`
     );
-  }, [slug]);
+  }, [post?.slug]);
 
   useEffect(() => {
     if (copied) {
@@ -122,8 +103,8 @@ export default function Post({ data }: { data: ArticleCardProps }) {
         <Card.Section className={classes.header}>
           <Group justify="space-between">
             <Group gap={0} p={4}>
-              {categories?.length > 0 ? (
-                categories.map(
+              {post?.categories?.length > 0 ? (
+                post?.categories.map(
                   ({
                     category: { name: categoryName, slug: catSlug },
                     catId: catPostId
@@ -137,33 +118,33 @@ export default function Post({ data }: { data: ArticleCardProps }) {
                 )
               ) : (
                 <Title order={1} className={classes.title}>
-                  {title}
+                  {post?.title}
                 </Title>
               )}
             </Group>
 
             <Group gap={0} p={4}>
-              <TimeSince timestamp={createdAt} pr={4} />
+              <TimeSince timestamp={post?.createdAt} pr={4} />
             </Group>
           </Group>
         </Card.Section>
-        {title && categories?.length > 0 ? (
+        {post?.title && post?.categories?.length > 0 ? (
           <Card.Section className={classes.header}>
             <Title order={1} className={classes.title}>
-              {title}
+              {post?.title}
             </Title>
           </Card.Section>
         ) : null}
         <Card.Section
           className={classes.body}
-          pt={categories?.length > 0 ? 10 : undefined}
+          pt={post?.categories?.length > 0 ? 10 : undefined}
         >
-          <HTMLContent content={body} />
+          <HTMLContent content={post?.body} />
         </Card.Section>
-        {footer ? (
+        {post?.footer ? (
           <Group mt="xs">
             <Text size="xs" c="dimmed">
-              {footer}
+              {post?.footer}
             </Text>
           </Group>
         ) : null}
@@ -171,13 +152,16 @@ export default function Post({ data }: { data: ArticleCardProps }) {
         <Card.Section className={classes.footer}>
           <Group gap={0} justify="space-between">
             <Group gap={0}>
-              <Avatar src={author.image} radius="sm" />
+              <Avatar
+                src={`${post?.avatarURL}sm/${post?.author?.avatar}`}
+                radius="sm"
+              />
               <div>
                 <Text size="sm" fw={500} pl="xs">
-                  {author.name}
+                  {post?.author.displayName}
                 </Text>
                 <Text size="xs" c="dimmed" pl="sm">
-                  {author.description}
+                  {post?.author.description}
                 </Text>
               </div>
               <Group gap={10} ml={10}>
@@ -191,7 +175,7 @@ export default function Post({ data }: { data: ArticleCardProps }) {
                     />
                   }
                 >
-                  {favoritesCount}
+                  {post?.favoritesCount}
                 </Badge>
                 <Badge
                   variant="default"
@@ -203,7 +187,7 @@ export default function Post({ data }: { data: ArticleCardProps }) {
                     />
                   }
                 >
-                  {commentsCount}
+                  {post?.commentsCount}
                 </Badge>
                 <Badge
                   variant="default"
@@ -215,7 +199,7 @@ export default function Post({ data }: { data: ArticleCardProps }) {
                     />
                   }
                 >
-                  {bookmarksCount}
+                  {post?.bookmarksCount}
                 </Badge>
                 <Badge
                   variant="default"
@@ -227,9 +211,9 @@ export default function Post({ data }: { data: ArticleCardProps }) {
                     />
                   }
                 >
-                  {viewsCount}
+                  {post?.viewsCount}
                 </Badge>
-                {!published && (
+                {!post?.published && (
                   <Badge color="yellow" variant="light">
                     Draft
                   </Badge>
@@ -245,7 +229,7 @@ export default function Post({ data }: { data: ArticleCardProps }) {
                     color={theme.colors.red[6]}
                     onClick={() =>
                       submit(
-                        { postId: id },
+                        { postId: post?.id },
                         {
                           navigate: false,
                           method: 'post',
@@ -255,7 +239,7 @@ export default function Post({ data }: { data: ArticleCardProps }) {
                       )
                     }
                   >
-                    {favorites?.length > 0 ? (
+                    {post?.favorites?.length > 0 ? (
                       <IconHeartFilled size={22} color={theme.colors.red[6]} />
                     ) : (
                       <IconHeart
@@ -270,7 +254,7 @@ export default function Post({ data }: { data: ArticleCardProps }) {
                     color={theme.colors.yellow[6]}
                     onClick={() =>
                       submit(
-                        { postId: id },
+                        { postId: post?.id },
                         {
                           navigate: false,
                           method: 'post',
@@ -280,7 +264,7 @@ export default function Post({ data }: { data: ArticleCardProps }) {
                       )
                     }
                   >
-                    {bookmarks?.length > 0 ? (
+                    {post?.bookmarks?.length > 0 ? (
                       <IconBookmarkFilled
                         size={22}
                         color={theme.colors.red[6]}
@@ -354,7 +338,7 @@ export default function Post({ data }: { data: ArticleCardProps }) {
       </Card>
       {canEditPost && openEditor && (
         <Grid.Col span={12}>
-          <PostEditor {...data} closeEditor={setOpenEditor} />
+          <PostEditor {...post} closeEditor={setOpenEditor} />
         </Grid.Col>
       )}
     </>

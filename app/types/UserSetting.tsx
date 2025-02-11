@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { User } from '~/types/User';
+import { type User } from '~/types/User';
 
 export type UserSetting = {
   id?: number;

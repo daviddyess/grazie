@@ -53,6 +53,11 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const post = await getPost({ slug: params?.slug }, userId);
 
   await sentry(request, { action: 'read', subject: 'Post', item: post });
+
+  if (post?.body) {
+    post.body = JSON.parse(post.body);
+  }
+
   const data = {
     post,
     comments: await getComments({
@@ -61,6 +66,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       limit: 10
     })
   };
+
   return data;
 }
 
@@ -72,17 +78,7 @@ export default function PostView() {
   return (
     <Grid>
       <Grid.Col span={12}>
-        <Post
-          data={{
-            ...post,
-            body: JSON.parse(post.body),
-            author: {
-              name: post?.author?.displayName,
-              description: '',
-              image: `${post?.avatarURL}sm/${post?.author?.avatar}`
-            }
-          }}
-        />
+        <Post post={post} />
       </Grid.Col>
       {openEditor && (
         <Grid.Col span={12}>

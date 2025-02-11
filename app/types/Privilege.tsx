@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { RolePrivilege } from '~/types/RolePrivilege';
+import { type RolePrivilege } from '~/types/RolePrivilege';
 
 export type Privilege = {
   id?: number;

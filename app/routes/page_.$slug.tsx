@@ -46,10 +46,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const page = await getPage({ slug: params?.slug });
   if (page) {
     await sentry(request, { action: 'read', subject: 'Page', item: page });
+    page.body = JSON.parse(page.body);
   }
 
-  const data = { page };
-  return data;
+  return { page };
 }
 
 export default function PageView() {
@@ -60,18 +60,7 @@ export default function PageView() {
   return (
     <Grid>
       <Grid.Col span={12}>
-        <Page
-          key={page.id}
-          data={{
-            ...page,
-            body: JSON.parse(page.body),
-            author: {
-              name: page?.author?.displayName,
-              description: '',
-              image: `${page?.avatarURL}sm/${page?.author?.avatar}`
-            }
-          }}
-        />
+        <Page key={page.id} page={page} />
       </Grid.Col>
     </Grid>
   );

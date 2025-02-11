@@ -6,7 +6,7 @@
 import { Box, Button, Loader, Text, Title } from '@mantine/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { CommentCard } from '~/components/Comment/CommentCard';
-import { Comment } from '~/types/Comment';
+import { type Comment } from '~/types/Comment';
 import CommentEditor from './Editor';
 import { IconSquarePlus } from '@tabler/icons-react';
 import { subject, useAbility } from '~/hooks/useAbility';
