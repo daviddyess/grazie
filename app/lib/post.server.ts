@@ -333,10 +333,12 @@ export async function getPosts(
       where.authorId = filter.authorId;
     }
 
+    let category;
+
     if (filter?.category) {
-      const category = await getCategory({
+      category = await getCategory({
         slug: filter.category,
-        select: { id: true }
+        select: { id: true, name: true }
       });
       if (category) {
         where.categories = {
@@ -414,7 +416,8 @@ export async function getPosts(
       avatarURL,
       count: articles.length,
       totalCount: await prisma.post.count({ where }),
-      nodes: articles
+      nodes: articles,
+      category
     };
   } catch (error: any) {
     log.error(error.message);

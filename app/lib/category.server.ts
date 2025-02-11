@@ -334,7 +334,7 @@ export async function getCategory({ id, slug, select }) {
 export async function getCategories({
   filter = {},
   sort = {},
-  limit = 25,
+  limit = undefined,
   offset = 0
 }: {
   filter?: { children?: string; parentId?: number };

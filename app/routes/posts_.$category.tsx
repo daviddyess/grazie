@@ -36,8 +36,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   });
   const data = {
     posts,
-    pager: pagerLoader(posts.totalCount),
-    category: params.category
+    pager: pagerLoader(posts.totalCount)
   };
 
   return data;

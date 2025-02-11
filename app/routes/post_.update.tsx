@@ -3,13 +3,29 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import type { ActionFunctionArgs } from 'react-router'; // or cloudflare/deno
+import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router'; // or cloudflare/deno
 import { redirectWithToast } from 'remix-toast';
-import { postCategory, purgePostCategories } from '~/lib/category.server';
+import {
+  getCategories,
+  postCategory,
+  purgePostCategories
+} from '~/lib/category.server';
 import { getPost, updatePost } from '~/lib/post.server';
 import { createAbility } from '~/utils/session.server';
 import { site } from '@/grazie';
 import { sentry } from '~/lib/sentry.server';
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  if (!request?.ability) {
+    await createAbility(request);
+  }
+
+  await sentry(request, { action: 'create', subject: 'Post' });
+  const categories = await getCategories({});
+  const data = { categories };
+
+  return data;
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const form = await request.formData();
