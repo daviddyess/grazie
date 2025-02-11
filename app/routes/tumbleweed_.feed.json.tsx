@@ -20,7 +20,16 @@ export async function loader() {
       opml: `${site.url}/feed.opml`
     }
   });
-
+  // Add the current snapshot to the feed
+  feed.addItem({
+    title: `Snapshot ${snapshots?.current?.version} Published`,
+    id: snapshots?.current?.version,
+    link: `${site.url}/tumbleweed?diff=${snapshots?.current?.change}`,
+    description: `openSUSE Tumbleweed ${snapshots?.current?.version} was published`,
+    content: `openSUSE Tumbleweed ${snapshots?.current?.version} was published`,
+    date: new Date(snapshots?.current?.date)
+  });
+  // Add all other published snapshots to the feed
   snapshots.published.forEach((snapshot) => {
     feed.addItem({
       title: `Snapshot ${snapshot?.version} Published`,
