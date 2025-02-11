@@ -280,7 +280,6 @@ export async function userLogin({ email, password }: UserLogin) {
     try {
       verification = await verifyPassword(password, login.password);
     } catch (err) {
-      console.log(err);
       return { errors: { status: 'RESET_REQUIRED' } };
     }
 
