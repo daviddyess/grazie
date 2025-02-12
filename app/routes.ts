@@ -9,9 +9,11 @@ import { join } from 'path';
 
 async function importSiteRoutes() {
   try {
+    accessSync(join(__dirname, `../site/routes.ts`), constants.F_OK);
     return (await import('../site/routes')).siteRoutes;
   } catch (error) {
-    console.log('Site Routes: ', 'Not Applicable');
+    console.log('Site Routes: ', 'Not Configured');
+    return [];
   }
 }
 
@@ -20,7 +22,7 @@ const siteRoutes = await importSiteRoutes();
 function gRoute(path: string) {
   try {
     accessSync(join(__dirname, `../site/${path}`), constants.F_OK);
-    console.log('Site Route: ', `${path} -> ../site/${path}`);
+    console.log('Site Override Route: ', `${path} -> ../site/${path}`);
     return `../site/${path}`;
   } catch (error) {
     return path;

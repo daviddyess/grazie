@@ -58,4 +58,4 @@ export default Page;
 
 In the above example, we're overriding the default theme with a custom theme that uses the `crimson` color palette, custom pages, and custom styles. It's still possible to import parts of the default theme if preferred.
 
-Update the `import { Theme }` and `export { Theme }` statements in `garzie.config.ts` to use the `site/theme/index.tsx` file instead of the default `app/theme/index.tsx` file.
+Update the `import { Theme }` and `export { Theme }` statements in `grazie.config.ts` to use the `site/theme` file instead of the default `app/theme` file.
