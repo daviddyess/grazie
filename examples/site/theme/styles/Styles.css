@@ -1,0 +1,18 @@
+body {
+  background-color: light-dark(var(--mantine-color-body), var(--mantine-color-crimson-3));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: light-dark(var(--mantine-primary-color-9), var(--mantine-primary-color-6))
+}
+
+.mantine-Card-root {
+  @mixin dark {
+    background-color: var(--mantine-color-dark-8);
+  }
+}
