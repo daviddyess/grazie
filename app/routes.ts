@@ -4,120 +4,154 @@ import {
   prefix,
   route
 } from '@react-router/dev/routes';
+import { accessSync, constants } from 'fs';
+import { join } from 'path';
+
+async function importSiteRoutes() {
+  try {
+    accessSync(join(__dirname, `../site/routes.ts`), constants.F_OK);
+    return (await import('../site/routes')).siteRoutes;
+  } catch (error) {
+    console.log('Site Routes: ', 'Not Configured');
+    return [];
+  }
+}
+
+const siteRoutes = await importSiteRoutes();
+
+function gRoute(path: string) {
+  try {
+    accessSync(join(__dirname, `../site/${path}`), constants.F_OK);
+    console.log('Site Override Route: ', `${path} -> ../site/${path}`);
+    return `../site/${path}`;
+  } catch (error) {
+    return path;
+  }
+}
 
 export default [
-  index('routes/_index.tsx'),
-  route('categories', 'routes/categories.tsx'),
+  index(gRoute('routes/_index.tsx')),
+  route('categories', gRoute('routes/categories.tsx')),
   // /category
   ...prefix('category', [
-    route('create', 'routes/category_.create.tsx'),
-    route('update', 'routes/category_.update.tsx')
+    route('create', gRoute('routes/category_.create.tsx')),
+    route('update', gRoute('routes/category_.update.tsx'))
     // TODO: route(':slug', 'routes/category_.$slug.tsx')
   ]),
-  route('comments/post/:postId', 'routes/comments_.post_.$postId.tsx'),
+  route('comments/post/:postId', gRoute('routes/comments_.post_.$postId.tsx')),
   // /dashboard
   ...prefix('dashboard', [
-    index('routes/dashboard.tsx'),
-    route('account', 'routes/dashboard.account.tsx'),
+    index(gRoute('routes/dashboard.tsx')),
+    route('account', gRoute('routes/dashboard.account.tsx')),
     // /dashboard/admin
     ...prefix('admin', [
-      index('routes/dashboard.admin._index.tsx'),
-      route('categories', 'routes/dashboard.admin.categories.tsx'),
+      index(gRoute('routes/dashboard.admin._index.tsx')),
+      route('categories', gRoute('routes/dashboard.admin.categories.tsx')),
       // TODO: route('comments', 'routes/dashboard.admin.comments.tsx'),
-      route('pages', 'routes/dashboard.admin.pages.tsx'),
-      route('posts', 'routes/dashboard.admin.posts.tsx'),
-      route('privileges', 'routes/dashboard.admin.privileges.tsx'),
+      route('pages', gRoute('routes/dashboard.admin.pages.tsx')),
+      route('posts', gRoute('routes/dashboard.admin.posts.tsx')),
+      route('privileges', gRoute('routes/dashboard.admin.privileges.tsx')),
       route(
         'role/:roleId/privileges',
-        'routes/dashboard.admin.role.$roleId.privileges.tsx'
+        gRoute('routes/dashboard.admin.role.$roleId.privileges.tsx')
       ),
       route(
         'role/:roleId/users',
-        'routes/dashboard.admin.role.$roleId.users.tsx'
+        gRoute('routes/dashboard.admin.role.$roleId.users.tsx')
       ),
-      route('roles', 'routes/dashboard.admin.roles.tsx'),
-      route('settings', 'routes/dashboard.admin.settings.tsx'),
-      route('users', 'routes/dashboard.admin.users.tsx')
+      route('roles', gRoute('routes/dashboard.admin.roles.tsx')),
+      route('settings', gRoute('routes/dashboard.admin.settings.tsx')),
+      route('users', gRoute('routes/dashboard.admin.users.tsx'))
     ]),
-    route('pages', 'routes/dashboard.pages.tsx'),
-    route('posts', 'routes/dashboard.posts.tsx')
+    route('pages', gRoute('routes/dashboard.pages.tsx')),
+    route('posts', gRoute('routes/dashboard.posts.tsx'))
   ]),
-  route('feed.atom', 'routes/feed.atom.tsx'),
-  route('feed.json', 'routes/feed.json.tsx'),
-  route('feed.opml', 'routes/feed.opml.tsx'),
-  route('feed.rss', 'routes/feed.rss.tsx'),
-  route('login', 'routes/login.tsx'),
-  route('logout', 'routes/logout.tsx'),
+  route('feed.atom', gRoute('routes/feed.atom.tsx')),
+  route('feed.json', gRoute('routes/feed.json.tsx')),
+  route('feed.opml', gRoute('routes/feed.opml.tsx')),
+  route('feed.rss', gRoute('routes/feed.rss.tsx')),
+  route('login', gRoute('routes/login.tsx')),
+  route('logout', gRoute('routes/logout.tsx')),
   // /note
   ...prefix('note', [
-    route(':id', 'routes/note_.$id.tsx'),
-    route('create', 'routes/note_.create.tsx'),
-    route('update', 'routes/note_.update.tsx')
+    route(':id', gRoute('routes/note_.$id.tsx')),
+    route('create', gRoute('routes/note_.create.tsx')),
+    route('update', gRoute('routes/note_.update.tsx'))
   ]),
-  route('notes', 'routes/notes.tsx'),
+  route('notes', gRoute('routes/notes.tsx')),
   // /page
   ...prefix('page', [
-    route(':slug', 'routes/page_.$slug.tsx'),
-    route('create', 'routes/page_.create.tsx'),
-    route('delete', 'routes/page_.delete.tsx'),
-    route('update', 'routes/page_.update.tsx')
+    route(':slug', gRoute('routes/page_.$slug.tsx')),
+    route('create', gRoute('routes/page_.create.tsx')),
+    route('delete', gRoute('routes/page_.delete.tsx')),
+    route('update', gRoute('routes/page_.update.tsx'))
   ]),
-  route('pages', 'routes/pages.tsx'),
+  route('pages', gRoute('routes/pages.tsx')),
   // /post
   ...prefix('post', [
-    route(':slug/comment', 'routes/post_.$slug_.comment.tsx'),
-    route(':slug/edit', 'routes/post_.$slug_.edit.tsx'),
-    route(':slug', 'routes/post_.$slug.tsx'),
-    route('bookmark', 'routes/post_.bookmark.tsx'),
-    route('create', 'routes/post_.create.tsx'),
-    route('favorite', 'routes/post_.favorite.tsx'),
-    route('update', 'routes/post_.update.tsx')
+    route(':slug/comment', gRoute('routes/post_.$slug_.comment.tsx')),
+    route(':slug/edit', gRoute('routes/post_.$slug_.edit.tsx')),
+    route(':slug', gRoute('routes/post_.$slug.tsx')),
+    route('bookmark', gRoute('routes/post_.bookmark.tsx')),
+    route('create', gRoute('routes/post_.create.tsx')),
+    route('favorite', gRoute('routes/post_.favorite.tsx')),
+    route('update', gRoute('routes/post_.update.tsx'))
   ]),
-  route('posts/:category', 'routes/posts_.$category.tsx'),
-  route('posts', 'routes/posts.tsx'),
+  route('posts/:category', gRoute('routes/posts_.$category.tsx')),
+  route('posts', gRoute('routes/posts.tsx')),
   // /privilege
   ...prefix('privilege', [
-    route('create', 'routes/privilege_.create.tsx'),
-    route('update', 'routes/privilege_.update.tsx')
+    route('create', gRoute('routes/privilege_.create.tsx')),
+    route('update', gRoute('routes/privilege_.update.tsx'))
   ]),
-  route('register', 'routes/register.tsx'),
-  route('robots.txt', 'routes/robots.txt.tsx'),
+  route('register', gRoute('routes/register.tsx')),
+  route('robots.txt', gRoute('routes/robots.txt.tsx')),
   // /role
   ...prefix('role', [
     route(
       ':roleId/privilege/create',
-      'routes/role_.$roleId.privilege_.create.tsx'
+      gRoute('routes/role_.$roleId.privilege_.create.tsx')
     ),
     route(
       ':roleId/privilege/delete',
-      'routes/role_.$roleId.privilege_.delete.tsx'
+      gRoute('routes/role_.$roleId.privilege_.delete.tsx')
     ),
     route(
       ':roleId/privilege/update',
-      'routes/role_.$roleId.privilege_.update.tsx'
+      gRoute('routes/role_.$roleId.privilege_.update.tsx')
     ),
-    route(':roleId/user/create', 'routes/role_.$roleId.user_.create.tsx'),
-    route(':roleId/user/delete', 'routes/role_.$roleId.user_.delete.tsx'),
-    route(':roleId/user/update', 'routes/role_.$roleId.user_.update.tsx'),
-    route('create', 'routes/role_.create.tsx'),
-    route('update', 'routes/role_.update.tsx')
+    route(
+      ':roleId/user/create',
+      gRoute('routes/role_.$roleId.user_.create.tsx')
+    ),
+    route(
+      ':roleId/user/delete',
+      gRoute('routes/role_.$roleId.user_.delete.tsx')
+    ),
+    route(
+      ':roleId/user/update',
+      gRoute('routes/role_.$roleId.user_.update.tsx')
+    ),
+    route('create', gRoute('routes/role_.create.tsx')),
+    route('update', gRoute('routes/role_.update.tsx'))
   ]),
   // /setting
   ...prefix('setting', [
-    route('create', 'routes/setting_.create.tsx'),
-    route('update', 'routes/setting_.update.tsx')
+    route('create', gRoute('routes/setting_.create.tsx')),
+    route('update', gRoute('routes/setting_.update.tsx'))
   ]),
   // /tumbleweed
   ...prefix('tumbleweed', [
-    index('routes/tumbleweed.tsx'),
-    route('diff/:snapshot', 'routes/tumbleweed_.diff.$snapshot.tsx'),
-    route('feed.atom', 'routes/tumbleweed_.feed.atom.tsx'),
-    route('feed.json', 'routes/tumbleweed_.feed.json.tsx'),
-    route('feed.rss', 'routes/tumbleweed_.feed.rss.tsx')
+    index(gRoute('routes/tumbleweed.tsx')),
+    route('diff/:snapshot', gRoute('routes/tumbleweed_.diff.$snapshot.tsx')),
+    route('feed.atom', gRoute('routes/tumbleweed_.feed.atom.tsx')),
+    route('feed.json', gRoute('routes/tumbleweed_.feed.json.tsx')),
+    route('feed.rss', gRoute('routes/tumbleweed_.feed.rss.tsx'))
   ]),
   // /user
   ...prefix('user', [
     //route('activate', 'routes/user_.activate.tsx'),
-    route('reset', 'routes/user_.reset.tsx')
-  ])
+    route('reset', gRoute('routes/user_.reset.tsx'))
+  ]),
+  ...siteRoutes
 ] satisfies RouteConfig;
