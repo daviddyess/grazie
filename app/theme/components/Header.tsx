@@ -1,5 +1,4 @@
 import {
-  Accordion,
   Anchor,
   Avatar,
   Box,
@@ -10,26 +9,19 @@ import {
   Divider,
   Drawer,
   Group,
-  HoverCard,
   Menu,
   rem,
   ScrollArea,
-  SimpleGrid,
   Text,
   ThemeIcon,
+  Title,
   UnstyledButton,
   useMantineTheme
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate, type To } from 'react-router';
 import {
-  IconBook,
-  IconChartPie3,
   IconChevronDown,
-  IconCode,
-  IconCoin,
-  IconFingerprint,
-  IconNotification,
   IconFriends,
   IconHeart,
   IconLogin,
@@ -39,68 +31,41 @@ import {
   IconStar,
   IconSwitchHorizontal,
   IconUserPlus,
-  IconDashboard,
-  IconPhoto
+  IconDashboard
 } from '@tabler/icons-react';
 import cx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useUser from '~/hooks/useUser';
-import classes from '~/themes/favorite/styles/Header.module.css';
+import classes from '~/theme/styles/Header.module.css';
 import { useTheme } from '~/hooks/useTheme';
-
-const mockdata = [
-  {
-    icon: IconCode,
-    title: 'Open source',
-    description: 'This Pokémon’s cry is very loud and distracting'
-  },
-  {
-    icon: IconCoin,
-    title: 'Free for everyone',
-    description: 'The fluid of Smeargle’s tail secretions changes'
-  },
-  {
-    icon: IconBook,
-    title: 'Documentation',
-    description: 'Yanma is capable of seeing 360 degrees without'
-  },
-  {
-    icon: IconFingerprint,
-    title: 'Security',
-    description: 'The shell’s rounded shape and the grooves on its.'
-  },
-  {
-    icon: IconChartPie3,
-    title: 'Analytics',
-    description: 'This Pokémon uses its flying ability to quickly chase'
-  },
-  {
-    icon: IconNotification,
-    title: 'Notifications',
-    description: 'Combusken battles with the intensely hot flames it spews'
-  }
-];
+import { NavLinks } from '~/components/NavLinks';
+import { site as defaultSite } from '@/grazie';
 
 const userMenuData = [
   {
     icon: IconHeart,
-    title: 'Liked posts'
+    title: 'Liked posts',
+    to: '/posts/favorites'
   },
   {
     icon: IconStar,
-    title: 'Saved posts'
+    title: 'Saved posts',
+    to: '/posts/bookmarks'
   },
   {
     icon: IconMessage,
-    title: 'My Comments'
+    title: 'My Comments',
+    to: '/posts/comments'
   },
   {
     icon: IconFriends,
-    title: 'My Connections'
+    title: 'Dashboard',
+    to: '/dashboard'
   },
   {
     icon: IconSettings,
-    title: 'Account Settings'
+    title: 'Account Settings',
+    to: '/dashboard/account'
   },
   {
     icon: IconLogout,
@@ -113,7 +78,6 @@ export function Header() {
   const navigate = useNavigate();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
-  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const [userLinksOpened, { toggle: toggleUserLinks }] = useDisclosure(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const user = useUser();
@@ -123,7 +87,7 @@ export function Header() {
   const {
     data: { navbar, site }
   } = useTheme();
-
+  // User Menu items in the responsive drawer
   const userLinks = userMenuData.map((item) => (
     <UnstyledButton
       className={classes.subLink}
@@ -146,35 +110,33 @@ export function Header() {
     </UnstyledButton>
   ));
 
+  const location = useLocation();
+  const locationRef = useRef(location.key);
+  // Close the drawer when the location changes
+  useEffect(() => {
+    if (locationRef.current !== location.key) {
+      locationRef.current = location.key;
+      if (drawerOpened) {
+        toggleDrawer();
+      }
+    }
+  }, [drawerOpened, location.key]);
+
   return (
     <Box pb={10}>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <Anchor component={Link} to="/" underline="never">
-            <Text
-              gradient={{ from: 'indigo', to: 'blue', deg: 90 }}
-              fw={500}
-              size="xl"
-              variant="gradient"
-            >
-              {site?.name ?? 'Site Name'}
-            </Text>
+            <Title order={1} size="1.50rem">
+              {site?.name ?? defaultSite?.name ?? 'Site Name'}
+            </Title>
           </Anchor>
 
           <Group h="100%" gap={0} visibleFrom="sm">
             <Link to="/" className={classes.link}>
               Home
             </Link>
-
-            {navbar?.links?.map((navlink, index) => (
-              <Link
-                key={`navlink-${index}`}
-                to={navlink.to}
-                className={classes.link}
-              >
-                {navlink.label}
-              </Link>
-            ))}
+            <NavLinks className={classes.link} />
           </Group>
           <Menu
             width={260}
@@ -240,38 +202,23 @@ export function Header() {
                   >
                     Your comments
                   </Menu.Item>
-                  <Menu.Item
-                    leftSection={
-                      <IconFriends color="green" size={14} stroke={1.5} />
-                    }
-                    onClick={() => navigate('/connections')}
-                  >
-                    My Connections
-                  </Menu.Item>
                   <Menu.Divider />
-                  <Menu.Label>Theme</Menu.Label>
-
-                  <Menu.Divider />
-                  <Menu.Label>Settings</Menu.Label>
+                  <Menu.Label>Content</Menu.Label>
                   <Menu.Item
                     leftSection={<IconDashboard size={14} stroke={1.5} />}
                     onClick={() => navigate('/dashboard')}
                   >
                     Dashboard
                   </Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Label>Account</Menu.Label>
                   <Menu.Item
                     leftSection={<IconSettings size={14} stroke={1.5} />}
                     onClick={() => navigate('/dashboard/account')}
                   >
-                    Account settings
+                    Account Settings
                   </Menu.Item>
-                  <Menu.Item
-                    leftSection={
-                      <IconSwitchHorizontal size={14} stroke={1.5} />
-                    }
-                  >
-                    Change account
-                  </Menu.Item>
+                  <Menu.Divider />
                   <Menu.Item
                     leftSection={<IconLogout size={14} stroke={1.5} />}
                     onClick={() => navigate('/logout')}
@@ -311,35 +258,24 @@ export function Header() {
         onClose={closeDrawer}
         size="100%"
         padding="md"
-        title={site?.name ?? 'Site Name'}
+        title={site?.name ?? defaultSite?.name ?? 'Site Name'}
         hiddenFrom="sm"
         zIndex={1000000}
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
-
-          <a href="#" className={classes.link}>
+          <Link to="/" className={classes.link}>
             Home
-          </a>
-          <UnstyledButton className={classes.link} onClick={toggleLinks}>
-            <Center inline>
-              <Box component="span" mr={5}>
-                Features
-              </Box>
-              <IconChevronDown
-                style={{ width: rem(16), height: rem(16) }}
-                color={theme.colors.blue[6]}
-              />
-            </Center>
-          </UnstyledButton>
-
-          <a href="#" className={classes.link}>
-            Learn
-          </a>
-          <a href="#" className={classes.link}>
-            Academy
-          </a>
-
+          </Link>
+          {navbar?.links?.map((link: { to: To; label: string }, index: any) => (
+            <Link
+              key={`navlink-${index}`}
+              to={link.to}
+              className={classes.link}
+            >
+              {link.label}
+            </Link>
+          ))}
           <Divider my="sm" />
           {isLoggedIn ? (
             <>
@@ -361,8 +297,10 @@ export function Header() {
             </>
           ) : (
             <Group justify="center" grow pb="xl" px="md">
-              <Button variant="default">Log in</Button>
-              <Button>Sign up</Button>
+              <Button variant="default" onClick={() => navigate('/login')}>
+                Log in
+              </Button>
+              <Button onClick={() => navigate('/register')}>Register</Button>
             </Group>
           )}
         </ScrollArea>

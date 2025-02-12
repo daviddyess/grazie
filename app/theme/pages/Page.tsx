@@ -1,7 +1,7 @@
 import { Box } from '@mantine/core';
 import React from 'react';
-import { Footer } from '~/themes/favorite/components/Footer';
-import { Header } from '~/themes/favorite/components/Header';
+import { Footer } from '~/theme/components/Footer';
+import { Header } from '~/theme/components/Header';
 
 export function Page({ children }: { children: React.ReactNode }) {
   return (
