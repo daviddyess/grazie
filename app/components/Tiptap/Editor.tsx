@@ -64,7 +64,7 @@ export default function Default({
 }: {
   name: string;
   form: any;
-  withSearch: boolean;
+  withSearch?: boolean;
 }) {
   const editor = useEditor({
     extensions: [
