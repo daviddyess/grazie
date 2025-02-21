@@ -343,3 +343,59 @@ model BookmarkPost {
   @@index([postId], map: "idx_bookmark_post_post")
   @@index([createdAt], map: "idx_bookmark_post_created")
 }
+
+model BlockGroup {
+  id          Int      @id @default(autoincrement())
+  status      Boolean  @default(false)
+  name        String
+  description String?
+  title       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  options     String?
+  blocks      BlockGroupBlock[]
+
+  @@unique([name], map: "unq_block_group_name")
+  @@index([createdAt], map: "idx_block_group_created")
+  @@index([updatedAt], map: "idx_block_group_updated")
+  @@index([status], map: "idx_block_group_status")
+}
+
+model Block {
+  id          Int        @id @default(autoincrement())
+  status      Boolean    @default(false)
+  blockType   String
+  name        String
+  description String?
+  title       String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now())
+  content     String?
+  groups       BlockGroupBlock[]
+
+  @@unique([name], map: "unq_block_name")
+  @@index([blockType], map: "idx_block_type")
+  @@index([name], map: "idx_block_name")
+  @@index([createdAt], map: "idx_block_created")
+  @@index([updatedAt], map: "idx_block_updated")
+  @@index([status], map: "idx_block_status")
+}
+
+model BlockGroupBlock {
+  id        Int        @id @default(autoincrement())
+  status    Boolean    @default(false)
+  groupId   Int
+  blockId   Int
+  order     Int?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now())
+  group     BlockGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  block     Block      @relation(fields: [blockId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, blockId], map: "unq_block_group_block")
+  @@index([groupId], map: "idx_block_group_block_group")
+  @@index([blockId], map: "idx_block_group_block_block")
+  @@index([status], map: "idx_block_group_block_status")
+  @@index([groupId, status], map: "idx_block_group_block_group_status")
+  @@index([order], map: "idx_block_group_block_order")
+}
