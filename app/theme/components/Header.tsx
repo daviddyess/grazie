@@ -31,7 +31,9 @@ import {
   IconStar,
   IconSwitchHorizontal,
   IconUserPlus,
-  IconDashboard
+  IconDashboard,
+  IconBookmarkFilled,
+  IconHeartFilled
 } from '@tabler/icons-react';
 import cx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
@@ -162,7 +164,7 @@ export function Header({ handle }: { handle: React.ReactNode }) {
                 <Text fw={500} size="sm" style={{ lineHeight: 1 }} mr={3}>
                   {username}
                 </Text>
-                <IconChevronDown size={12} stroke={1.5} />
+                <IconChevronDown size={22} stroke={1.5} />
               </Group>
             </UnstyledButton>
           </Menu.Target>
@@ -171,41 +173,43 @@ export function Header({ handle }: { handle: React.ReactNode }) {
               <>
                 <Menu.Item
                   leftSection={
-                    <IconHeart
-                      size={14}
+                    <IconHeartFilled
+                      size={22}
                       color={theme.colors.red[6]}
                       stroke={1.5}
                     />
                   }
+                  onClick={() => navigate('/posts/favorites')}
                 >
-                  Liked posts
+                  Favorite Posts
                 </Menu.Item>
                 <Menu.Item
                   leftSection={
-                    <IconStar
-                      size={14}
+                    <IconBookmarkFilled
+                      size={22}
                       color={theme.colors.yellow[6]}
                       stroke={1.5}
                     />
                   }
+                  onClick={() => navigate('/posts/bookmarks')}
                 >
-                  Saved posts
+                  Saved Posts
                 </Menu.Item>
                 <Menu.Item
                   leftSection={
                     <IconMessage
-                      size={14}
+                      size={22}
                       color={theme.colors.blue[6]}
                       stroke={1.5}
                     />
                   }
                 >
-                  Your comments
+                  Your Comments
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Label>Content</Menu.Label>
                 <Menu.Item
-                  leftSection={<IconDashboard size={14} stroke={1.5} />}
+                  leftSection={<IconDashboard size={22} stroke={1.5} />}
                   onClick={() => navigate('/dashboard')}
                 >
                   Dashboard
@@ -213,14 +217,14 @@ export function Header({ handle }: { handle: React.ReactNode }) {
                 <Menu.Divider />
                 <Menu.Label>Account</Menu.Label>
                 <Menu.Item
-                  leftSection={<IconSettings size={14} stroke={1.5} />}
+                  leftSection={<IconSettings size={22} stroke={1.5} />}
                   onClick={() => navigate('/dashboard/account')}
                 >
                   Account Settings
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item
-                  leftSection={<IconLogout size={14} stroke={1.5} />}
+                  leftSection={<IconLogout size={22} stroke={1.5} />}
                   onClick={() => navigate('/logout')}
                 >
                   Logout
@@ -229,14 +233,14 @@ export function Header({ handle }: { handle: React.ReactNode }) {
             ) : (
               <>
                 <Menu.Item
-                  leftSection={<IconLogin size={14} stroke={1.5} />}
+                  leftSection={<IconLogin size={22} stroke={1.5} />}
                   onClick={() => navigate('/login')}
                 >
                   Login
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item
-                  leftSection={<IconUserPlus size={14} stroke={1.5} />}
+                  leftSection={<IconUserPlus size={22} stroke={1.5} />}
                   onClick={() => navigate('/register')}
                 >
                   Register
@@ -283,7 +287,7 @@ export function Header({ handle }: { handle: React.ReactNode }) {
                     {username}
                   </Box>
                   <IconChevronDown
-                    style={{ width: rem(16), height: rem(16) }}
+                    style={{ width: rem(18), height: rem(18) }}
                     color={theme.colors.blue[6]}
                   />
                 </Center>

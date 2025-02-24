@@ -308,6 +308,8 @@ export async function getPosts(
       username?: string;
       category?: string;
       published?: boolean;
+      favorites?: boolean;
+      bookmarks?: boolean;
     };
     limit?: number;
     offset?: number;
@@ -317,20 +319,40 @@ export async function getPosts(
   try {
     const where = {} as {
       authorId?: number;
-      category?: any;
+      categories?: any;
       published?: boolean;
+      favorites?: { some: { userId: number } };
+      bookmarks?: { some: { userId: number } };
     };
 
-    if (filter?.published) {
+    if (typeof filter?.published === 'boolean') {
       where.published = filter.published;
     }
 
     if (filter?.username) {
-      where.authorId = await getUserByUsername(filter.username);
+      where.authorId = (await getUserByUsername(filter.username)).id;
     }
 
     if (filter?.authorId) {
       where.authorId = filter.authorId;
+    }
+
+    if (typeof filter?.favorites === 'boolean') {
+      if (filter?.favorites && userId)
+        where.favorites = {
+          some: {
+            userId
+          }
+        };
+    }
+
+    if (typeof filter?.bookmarks === 'boolean') {
+      if (filter?.bookmarks && userId)
+        where.bookmarks = {
+          some: {
+            userId
+          }
+        };
     }
 
     let category;
@@ -417,7 +439,9 @@ export async function getPosts(
       count: articles.length,
       totalCount: await prisma.post.count({ where }),
       nodes: articles,
-      category
+      category,
+      favorites: filter?.favorites,
+      bookmarks: filter?.bookmarks
     };
   } catch (error: any) {
     log.error(error.message);

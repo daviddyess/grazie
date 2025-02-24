@@ -108,6 +108,8 @@ export default [
     route('update', gRoute('routes/post_.update.tsx'))
   ]),
   route('posts/:category', gRoute('routes/posts_.$category.tsx')),
+  route('posts/bookmarks', gRoute('routes/posts_.bookmarks.tsx')),
+  route('posts/favorites', gRoute('routes/posts_.favorites.tsx')),
   route('posts', gRoute('routes/posts.tsx')),
   // /privilege
   ...prefix('privilege', [
