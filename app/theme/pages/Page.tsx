@@ -28,12 +28,14 @@ export function Page({ children }: { children: React.ReactNode }) {
       <AppShell.Header>
         <Header
           handle={
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              hiddenFrom="sm"
-              size="sm"
-            />
+            !empty(blocksGroup?.left) ? (
+              <Burger
+                opened={opened}
+                onClick={toggle}
+                hiddenFrom="sm"
+                size="sm"
+              />
+            ) : undefined
           }
         />
       </AppShell.Header>
