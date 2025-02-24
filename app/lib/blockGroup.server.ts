@@ -101,13 +101,52 @@ export async function deleteBlockGroup(blockGroup: BlockGroup) {
     }
   });
 }
+/**
+ * Get a BlockGroup
+ * @param [object]
+ * @returns
+ */
+export async function getBlockGroup({ id, name }: BlockGroup) {
+  if (!id && !name) {
+    throw new Error(
+      `id (int) [${id}] or name (string) [${name}] is required for getBlockGroup`
+    );
+  }
+  const where = name ? { name } : { id };
 
-export async function getBlockGroup(blockGroup: BlockGroup) {
   return prisma.blockGroup.findUnique({
-    where: {
-      id: blockGroup.id
-    }
+    where
   });
+}
+/**
+ * Get Blocks in a BlockGroup
+ * @param [object]
+ * @returns
+ */
+export async function getBlocksGroup({ id, name }: BlockGroup) {
+  if (!id && !name) {
+    throw new Error(
+      `id (int) [${id}] or name (string) [${name}] is required for getBlocksGroup`
+    );
+  }
+  const where = name ? { name } : { id };
+
+  const group = await prisma.blockGroup.findUnique({
+    where,
+    select: { id: true, status: true }
+  });
+
+  if (!group || !group.status) {
+    return [];
+  }
+
+  const blocks = await prisma.blockGroupBlock.findMany({
+    where: {
+      groupId: group.id
+    },
+    select: { blockId: true, block: true }
+  });
+  return blocks.map((block) => block.block);
 }
 
 export async function getBlockGroups({

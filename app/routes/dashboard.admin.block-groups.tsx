@@ -35,7 +35,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export const BlockGroups = () => {
   const data = useLoaderData<typeof loader>();
-  console.log(JSON.stringify(data, null, 2));
   const [blockGroupEditor, setBlockGroupEditor] = useState<
     number | null | boolean
   >(false);

@@ -34,6 +34,7 @@ import { setting } from '~/lib/setting.server';
 import classes from '~/styles/NotFound.module.css';
 import { site, theme } from '@/grazie';
 import { getToast } from 'remix-toast';
+import { getBlocksGroup } from './lib/blockGroup.server';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -75,9 +76,12 @@ export const links: Route.LinksFunction = () => [
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const user = await getUser(request);
   const { toast, headers } = await getToast(request);
-
+  const leftBlocks = await getBlocksGroup({ name: 'left' });
   return data(
     {
+      blocksGroup: {
+        left: leftBlocks
+      },
       user,
       theme: {
         footer: {

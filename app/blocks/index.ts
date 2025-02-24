@@ -16,13 +16,13 @@ export const BlockContents = {
 export const BlockTypes = {
   html: {
     name: 'HTML',
-    Editor: HTMLBlockContentEditor,
-    Content: HTMLBlockContent
+    Editor: 'HTMLBlockContentEditor',
+    Content: 'HTMLBlockContent'
   },
   'rich-text': {
     name: 'Rich Text',
-    Editor: RichTextBlockContentEditor,
-    Content: RichTextBlockContent
+    Editor: 'RichTextBlockContentEditor',
+    Content: 'RichTextBlockContent'
   }
 };
 

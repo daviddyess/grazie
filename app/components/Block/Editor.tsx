@@ -73,7 +73,7 @@ const BlockEditor = ({
   const route = !id ? '/block/create' : '/block/update';
 
   const submit = useSubmit();
-  console.log(status);
+
   const form = useForm({
     initialValues: {
       blockType,
