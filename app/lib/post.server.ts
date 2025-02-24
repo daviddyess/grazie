@@ -1,7 +1,7 @@
 /**
  * Grazie
  * @package Post Library
- * @copyright Copyright (c) 2024 David Dyess II
+ * @copyright Copyright (c) 2024-2025 David Dyess II
  * @license MIT see LICENSE
  */
 import { getUserByUsername } from '~/lib/user.server';
@@ -191,6 +191,18 @@ export async function updatePost({
     });
 
     return post;
+  } catch (error: any) {
+    log.error(error.message);
+    log.error(error.stack);
+    throw error;
+  }
+}
+
+export async function deletePost({ id }: { id: number }) {
+  try {
+    if (await prisma.post.delete({ where: { id } })) {
+      return true;
+    }
   } catch (error: any) {
     log.error(error.message);
     log.error(error.stack);

@@ -104,6 +104,7 @@ export default [
     route(':slug', gRoute('routes/post_.$slug.tsx')),
     route('bookmark', gRoute('routes/post_.bookmark.tsx')),
     route('create', gRoute('routes/post_.create.tsx')),
+    route('delete', gRoute('routes/post_.delete.tsx')),
     route('favorite', gRoute('routes/post_.favorite.tsx')),
     route('update', gRoute('routes/post_.update.tsx'))
   ]),
