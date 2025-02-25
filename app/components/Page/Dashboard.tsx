@@ -135,7 +135,8 @@ export default function PageDashboard({ pages }: { pages: Page[] }) {
         <Table.Thead className={classes.header}>
           <Table.Tr>
             <Table.Th>ID</Table.Th>
-            <Table.Th>Title</Table.Th> <Table.Th>Status</Table.Th>
+            <Table.Th>Title</Table.Th>
+            <Table.Th>Status</Table.Th>
             <Table.Th>Summary</Table.Th>
             <Table.Th>Created</Table.Th>
             <Table.Th>Slug</Table.Th>

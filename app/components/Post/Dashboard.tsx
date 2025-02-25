@@ -37,7 +37,7 @@ export default function PostAdmin({ posts }: { posts: Post[] }) {
   const rows =
     posts.nodes.length > 0 ? (
       posts.nodes.map((row: Post) => (
-        <Fragment key={row.slug}>
+        <Fragment key={`post-${row.slug}-${row.id}}`}>
           <Table.Tr>
             <Table.Td>{row.id}</Table.Td>
             <Table.Td>{row.title}</Table.Td>
@@ -48,7 +48,12 @@ export default function PostAdmin({ posts }: { posts: Post[] }) {
             <Table.Td>
               {row?.categories?.length > 0 &&
                 row?.categories?.map((cat, index) => (
-                  <Text key={cat.slug} component="span" fz="sm" mr={10}>
+                  <Text
+                    key={`cat-${cat?.category.slug}-${cat?.id}`}
+                    component="span"
+                    fz="sm"
+                    mr={10}
+                  >
                     {cat.category.name}
                     {index + 1 < row.categories.length && ','}
                   </Text>
