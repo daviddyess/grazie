@@ -1,6 +1,6 @@
 /**
  * Grazie
- * @copyright Copyright (c) 2024 David Dyess II
+ * @copyright Copyright (c) 2024-2025 David Dyess II
  * @license MIT see LICENSE
  */
 import {
@@ -10,40 +10,54 @@ import {
   Group,
   Modal,
   Table,
+  Text,
   Title
 } from '@mantine/core';
-import { useLoaderData, useNavigate } from 'react-router';
 import {
-  IconArrowUpRight,
   IconEdit,
+  IconArrowUpRight,
   IconSquarePlus,
   IconTrash
 } from '@tabler/icons-react';
-import { Fragment, useState } from 'react';
-import classes from '~/components/Dashboard/AdminPost.module.css';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Fragment } from 'react/jsx-runtime';
 import DateTime from '~/components/DateTime';
-import PageEditor from '~/components/Page/Editor';
 import Pager from '~/components/Pager/Pager';
-import type { Page } from '~/types/Page';
-import DeletePage from '~/components/Page/Delete';
+import PostEditor from '~/components/Post/Editor';
+import type { Post } from '~/types/Post';
+import DeletePost from '~/components/Post/Delete';
 
-export default function PageDashboard({ pages }: { pages: Page[] }) {
+export default function PostAdmin({ posts }: { posts: Post[] }) {
   const [openEditor, setOpenEditor] = useState(false);
-  const [pageEditor, setPageEditor] = useState(null);
-  const [pageDelete, setPageDelete] = useState(null);
+  const [postEditor, setPostEditor] = useState(null);
+  const [postDelete, setPostDelete] = useState(null);
   const navigate = useNavigate();
 
   const rows =
-    pages?.nodes?.length > 0 ? (
-      pages.nodes.map((row: Page) => (
-        <Fragment key={row.slug}>
+    posts.nodes.length > 0 ? (
+      posts.nodes.map((row: Post) => (
+        <Fragment key={`post-${row.slug}-${row.id}}`}>
           <Table.Tr>
             <Table.Td>{row.id}</Table.Td>
             <Table.Td>{row.title}</Table.Td>
             <Table.Td>{row.published ? 'Published' : 'Draft'}</Table.Td>
-            <Table.Td>{row.summary}</Table.Td>
             <Table.Td>
               <DateTime timestamp={row.createdAt} />
+            </Table.Td>
+            <Table.Td>
+              {row?.categories?.length > 0 &&
+                row?.categories?.map((cat, index) => (
+                  <Text
+                    key={`cat-${cat?.category.slug}-${cat?.id}`}
+                    component="span"
+                    fz="sm"
+                    mr={10}
+                  >
+                    {cat.category.name}
+                    {index + 1 < row.categories.length && ','}
+                  </Text>
+                ))}
             </Table.Td>
             <Table.Td>{row.slug}</Table.Td>
             <Table.Td>
@@ -51,8 +65,8 @@ export default function PageDashboard({ pages }: { pages: Page[] }) {
                 <ActionIcon
                   variant="subtle"
                   radius="md"
-                  aria-label="Edit Page"
-                  onClick={() => setPageEditor(row.id)}
+                  aria-label="Posts"
+                  onClick={() => setPostEditor(row.id)}
                 >
                   <IconEdit
                     style={{ width: '70%', height: '70%' }}
@@ -64,7 +78,7 @@ export default function PageDashboard({ pages }: { pages: Page[] }) {
                   variant="subtle"
                   radius="md"
                   aria-label="Delete Page"
-                  onClick={() => setPageDelete(row.id)}
+                  onClick={() => setPostDelete(row.id)}
                 >
                   <IconTrash
                     style={{ width: '70%', height: '70%' }}
@@ -76,7 +90,7 @@ export default function PageDashboard({ pages }: { pages: Page[] }) {
                   variant="subtle"
                   radius="md"
                   aria-label="View"
-                  onClick={() => navigate(`/page/${row.slug}`)}
+                  onClick={() => navigate(`/post/${row.slug}`)}
                 >
                   <IconArrowUpRight
                     style={{ width: '70%', height: '70%' }}
@@ -86,34 +100,34 @@ export default function PageDashboard({ pages }: { pages: Page[] }) {
               </Group>
             </Table.Td>
           </Table.Tr>
-          {pageEditor === row.id && (
+          {postEditor === row.id && (
             <Table.Tr>
-              <Table.Td colSpan={7}>
-                <PageEditor closeEditor={setPageEditor} {...row} />
+              <Table.Td colSpan={6}>
+                <PostEditor closeEditor={setPostEditor} {...row} />
               </Table.Td>
             </Table.Tr>
           )}
-          {pageDelete === row.id && (
+          {postDelete === row.id && (
             <Modal
               opened
-              onClose={() => setPageDelete(null)}
-              title={`Delete Page ${row.title}?`}
+              onClose={() => setPostDelete(null)}
+              title={`Delete Post ${row?.title ?? row.slug}?`}
               centered
             >
-              <DeletePage id={row.id} cancel={setPageDelete} />
+              <DeletePost id={row.id} cancel={setPostDelete} />
             </Modal>
           )}
         </Fragment>
       ))
     ) : (
       <Table.Tr>
-        <Table.Td colSpan={7}>No pages have been created!</Table.Td>
+        <Table.Td colSpan={6}>No pages have been created!</Table.Td>
       </Table.Tr>
     );
 
   return (
     <>
-      <Title>Pages</Title>
+      <Title>Posts</Title>
       {!openEditor && (
         <Box my={10}>
           <Button
@@ -121,24 +135,24 @@ export default function PageDashboard({ pages }: { pages: Page[] }) {
             onClick={() => setOpenEditor(true)}
             variant="light"
           >
-            New Page
+            New Post
           </Button>
         </Box>
       )}
       {openEditor && (
         <Box my={10}>
-          <PageEditor closeEditor={setOpenEditor} />
+          <PostEditor closeEditor={setOpenEditor} />
         </Box>
       )}
       <Pager />
       <Table stickyHeader striped stickyHeaderOffset={60} miw={700}>
-        <Table.Thead className={classes.header}>
+        <Table.Thead>
           <Table.Tr>
             <Table.Th>ID</Table.Th>
             <Table.Th>Title</Table.Th>
             <Table.Th>Status</Table.Th>
-            <Table.Th>Summary</Table.Th>
             <Table.Th>Created</Table.Th>
+            <Table.Th>Categories</Table.Th>
             <Table.Th>Slug</Table.Th>
             <Table.Th>Actions</Table.Th>
           </Table.Tr>

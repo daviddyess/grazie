@@ -15,7 +15,7 @@
       "./app"
     ],
     "ext": "ts,tsx,js,jsx,json,css,scss,md",
-    "exec": "npm run build && npm run start"
+    "exec": "NODE_ENV=development npm run build && npm run start"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.738.0",

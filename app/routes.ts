@@ -31,6 +31,14 @@ function gRoute(path: string) {
 
 export default [
   index(gRoute('routes/_index.tsx')),
+  ...prefix('block', [
+    route('create', gRoute('routes/block_.create.tsx')),
+    route('update', gRoute('routes/block_.update.tsx')),
+    ...prefix('group', [
+      route('create', gRoute('routes/block_.group_.create.tsx')),
+      route('update', gRoute('routes/block_.group_.update.tsx'))
+    ])
+  ]),
   route('categories', gRoute('routes/categories.tsx')),
   // /category
   ...prefix('category', [
@@ -40,12 +48,14 @@ export default [
   ]),
   route('comments/post/:postId', gRoute('routes/comments_.post_.$postId.tsx')),
   // /dashboard
-  ...prefix('dashboard', [
-    index(gRoute('routes/dashboard.tsx')),
+  route('dashboard', 'routes/dashboard.tsx', [
+    //index(gRoute('routes/dashboard.account.tsx')),
     route('account', gRoute('routes/dashboard.account.tsx')),
     // /dashboard/admin
     ...prefix('admin', [
       index(gRoute('routes/dashboard.admin._index.tsx')),
+      route('blocks', gRoute('routes/dashboard.admin.blocks.tsx')),
+      route('block-groups', gRoute('routes/dashboard.admin.block-groups.tsx')),
       route('categories', gRoute('routes/dashboard.admin.categories.tsx')),
       // TODO: route('comments', 'routes/dashboard.admin.comments.tsx'),
       route('pages', gRoute('routes/dashboard.admin.pages.tsx')),
@@ -94,10 +104,13 @@ export default [
     route(':slug', gRoute('routes/post_.$slug.tsx')),
     route('bookmark', gRoute('routes/post_.bookmark.tsx')),
     route('create', gRoute('routes/post_.create.tsx')),
+    route('delete', gRoute('routes/post_.delete.tsx')),
     route('favorite', gRoute('routes/post_.favorite.tsx')),
     route('update', gRoute('routes/post_.update.tsx'))
   ]),
   route('posts/:category', gRoute('routes/posts_.$category.tsx')),
+  route('posts/bookmarks', gRoute('routes/posts_.bookmarks.tsx')),
+  route('posts/favorites', gRoute('routes/posts_.favorites.tsx')),
   route('posts', gRoute('routes/posts.tsx')),
   // /privilege
   ...prefix('privilege', [

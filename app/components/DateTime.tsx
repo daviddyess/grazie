@@ -78,7 +78,7 @@ export function TimeSince({
       position="left"
       withArrow
     >
-      <Box className={className} fz={fz} {...others}>
+      <Box className={className} fz={fz} {...others} component="span">
         {str} ago
       </Box>
     </Tooltip>

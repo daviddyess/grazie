@@ -15,12 +15,15 @@ import {
   IconDashboard,
   IconStar,
   IconShield,
-  IconUserCog
+  IconUserCog,
+  IconBlocks,
+  IconBoxMultiple
 } from '@tabler/icons-react';
 import classes from '~/components/Dashboard/Navbar.module.css';
 import { Link, useMatches, useNavigate } from 'react-router';
 import useUser from '~/hooks/useUser';
 import { Can } from '~/components/Can';
+import { link } from 'joi';
 
 const tabs = {
   account: [
@@ -37,6 +40,18 @@ const tabs = {
       link: '/dashboard/admin',
       label: 'Overview',
       icon: IconDashboard,
+      links: []
+    },
+    {
+      link: '/dashboard/admin/blocks',
+      label: 'Blocks',
+      icon: IconBlocks,
+      links: []
+    },
+    {
+      link: '/dashboard/admin/block-groups',
+      label: 'Block Groups',
+      icon: IconBoxMultiple,
       links: []
     },
     {
@@ -128,7 +143,7 @@ export default function Navbar() {
           mb="xs"
           ta="center"
         >
-          {user.email}
+          {user?.email}
         </Text>
         <Can I="manage" a="Dashboard">
           <SegmentedControl
