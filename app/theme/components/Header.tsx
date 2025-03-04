@@ -76,7 +76,7 @@ const userMenuData = [
   }
 ];
 
-export function Header({ handle }: { handle: React.ReactNode }) {
+export function Header({ handle }: { handle?: React.ReactNode }) {
   const navigate = useNavigate();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -133,7 +133,6 @@ export function Header({ handle }: { handle: React.ReactNode }) {
             {site?.name ?? defaultSite?.name ?? 'Site Name'}
           </Title>
         </Anchor>
-
         <Group h="100%" gap={0} visibleFrom="sm">
           <Link to="/" className={classes.link}>
             Home
