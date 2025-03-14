@@ -8,6 +8,7 @@ import {
   PutObjectCommand,
   DeleteObjectCommand
 } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
 import fs from 'fs';
 import { getLogger } from '~/utils/logger.server';
 import path from 'path';
@@ -61,28 +62,34 @@ export const s3Upload = async ({
     folder = folder ? `${folder}/` : '';
     const Key = name ? `${folder}${name}` : `${folder}${path.basename(file)}`;
 
-    const data = await s3Client.send(
-      new PutObjectCommand({
-        ACL,
+    const upload = new Upload({
+      client: s3Client,
+      params: {
         Bucket,
+        Key,
         Body,
-        Key
-      })
-    );
+        ACL
+      }
+    });
 
-    if (data) {
-      if (unlink) {
-        fs.unlink(file, (unlinkError) => {
-          if (unlinkError) {
-            throw unlinkError;
-          }
-        });
-      }
-      if (deleteFile) {
-        await s3Client.send(
-          new DeleteObjectCommand({ Bucket, Key: `${folder}${deleteFile}` })
-        );
-      }
+    upload.on('httpUploadProgress', (progress) => {
+      log.info(`Uploaded ${progress.Key} to ${progress.Bucket}`);
+    });
+
+    const data = await upload.done();
+    // Delete local copy
+    if (unlink) {
+      fs.unlink(file, (unlinkError) => {
+        if (unlinkError) {
+          throw unlinkError;
+        }
+      });
+    }
+    // Delete old file from S3
+    if (deleteFile) {
+      const res = await s3Client.send(
+        new DeleteObjectCommand({ Bucket, Key: `${folder}${deleteFile}` })
+      );
     }
   } catch (error) {
     log.error(error.message);
