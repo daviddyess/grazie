@@ -8,11 +8,26 @@ The default path prefix for the `app` folder is `~/`, to import files from the `
 
 ## Site Routes
 
-The `site` folder is allowed to contain a `routes.ts` file, which can be used to add new routes to your site. This file supports the same syntax as the `app/routes.ts` file, which is the standard React Router 7 Framework route file.
+The `site` folder is allowed to contain a `routes.ts` file, which can be used to add new routes to your site. This file supports the same syntax as the `app/routes.ts` file, which is the standard React Router 7 Framework route file. Any routers added to `site/routes.ts` will be appended to the default routes.
+
+```tsx
+import {
+  index,
+  prefix,
+  route,
+  type RouteConfig
+} from '@react-router/dev/routes';
+
+export const siteRoutes = [
+  route('test', '../site/routes/test.tsx')
+] satisfies RouteConfig;
+```
 
 Routes matching the file names in `app/routes` and located in the `site/routes` folder will automatically override those `app` routes.
 
-For example, if you create a file named `site/routes/test.tsx`, it will override the default route file used for `app/routes/test.tsx`.
+For example, if you create a file named `site/routes/_index.tsx`, it will override the default route file used for `app/routes/_index.tsx`.
+
+Routes in Grazie! use the naming scheme that was previously used by Remix 2. Unnested routes use the trailing underscore (`_`) to indicate they are not nested. Parameters are preceded by a `$` symbol.
 
 ## Site Theme
 
