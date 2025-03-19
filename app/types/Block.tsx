@@ -10,7 +10,7 @@ export type BlockInput = {
 };
 
 export type Block = {
-  id: string;
+  id: number;
   blockType: string;
   name: string;
   title?: string;
