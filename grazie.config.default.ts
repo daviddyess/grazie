@@ -15,6 +15,7 @@ export { Theme } from 'app/theme';
 export const pageName = 'Page';
 // Theme Object
 export const theme = Theme.theme;
+
 export const site = {
   name: 'Grazie!',
   slogan: 'Powered by Grazie!',
@@ -24,6 +25,8 @@ export const site = {
   separator: ' | ',
   url: 'http://localhost:3000'
 };
+
+export const siteLinks = [];
 
 export const metaSettings = {
   home: {

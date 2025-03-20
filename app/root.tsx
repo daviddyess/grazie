@@ -1,5 +1,17 @@
+import { site, siteLinks, theme } from '@/grazie';
+import {
+  Button,
+  ColorSchemeScript,
+  Container,
+  Group,
+  mantineHtmlProps,
+  MantineProvider,
+  Text,
+  Title
+} from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
+import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
 import '@mantine/tiptap/styles.css';
 import {
@@ -11,67 +23,56 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
-  useRouteLoaderData
+  useLoaderData
 } from 'react-router';
-
-import type { Route } from './+types/root';
-import {
-  Button,
-  ColorSchemeScript,
-  Container,
-  Group,
-  MantineProvider,
-  Text,
-  Title,
-  mantineHtmlProps
-} from '@mantine/core';
-import { Notifications } from '@mantine/notifications';
+import { getToast } from 'remix-toast';
 import { AbilityProvider } from '~/components/AbilityProvider';
 import { ThemeProvider } from '~/components/ThemeProvider';
-import { getUser } from '~/utils/session.server';
 import { setting } from '~/lib/setting.server';
 import classes from '~/styles/NotFound.module.css';
-import { site, theme } from '@/grazie';
-import { getToast } from 'remix-toast';
+import { getUser } from '~/utils/session.server';
+import type { Route } from './+types/root';
 import { getBlocksGroup } from './lib/blockGroup.server';
 
-export const links: Route.LinksFunction = () => [
-  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  {
-    rel: 'preconnect',
-    href: 'https://fonts.gstatic.com',
-    crossOrigin: 'anonymous'
-  },
-  {
-    rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'
-  },
-  {
-    rel: 'alternate',
-    href: '/feed.rss',
-    title: 'RSS Feed',
-    type: 'application/rss+xml'
-  },
-  {
-    rel: 'alternate',
-    href: '/feed.atom',
-    title: 'Atom Feed',
-    type: 'application/atom+xml'
-  },
-  {
-    rel: 'alternate',
-    href: '/feed.json',
-    title: 'JSON Feed',
-    type: 'application/feed+json'
-  },
-  {
-    rel: 'alternate',
-    href: '/feeds.opml',
-    title: 'OPML Feed',
-    type: 'text/opml+xml'
-  }
-];
+export function links() {
+  return [
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.gstatic.com',
+      crossOrigin: 'anonymous'
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'
+    },
+    {
+      rel: 'alternate',
+      href: '/feed.rss',
+      title: 'RSS Feed',
+      type: 'application/rss+xml'
+    },
+    {
+      rel: 'alternate',
+      href: '/feed.atom',
+      title: 'Atom Feed',
+      type: 'application/atom+xml'
+    },
+    {
+      rel: 'alternate',
+      href: '/feed.json',
+      title: 'JSON Feed',
+      type: 'application/feed+json'
+    },
+    {
+      rel: 'alternate',
+      href: '/feeds.opml',
+      title: 'OPML Feed',
+      type: 'text/opml+xml'
+    },
+    ...siteLinks
+  ];
+}
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const user = await getUser(request);

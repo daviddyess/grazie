@@ -143,6 +143,9 @@ export const site = {
   separator: ' | ',
   url: 'http://localhost:3000'
 };
+
+// Site Links
+export const siteLinks = [];
 // SEO Settings
 export const metaSettings = {
   home: {
@@ -154,6 +157,23 @@ export const Pages = {
   root: 'Page',
   dashboard: 'Dashboard'
 };
+```
+
+#### Favicon
+
+To override the default favicon, import an image file from the `/site` folder and use it as the `href` attribute in the exported `siteLinks` array.
+
+```ts
+import favicon from '/site/favicon.png';
+// rest of grazie.config.ts
+// Site Links
+export const siteLinks = [
+  {
+    rel: 'icon',
+    type: 'image/png',
+    href: favicon
+    }
+];
 ```
 
 ### Admin Dashboard
