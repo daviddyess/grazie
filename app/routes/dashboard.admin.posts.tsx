@@ -5,11 +5,11 @@
  */
 import type { LoaderFunctionArgs } from 'react-router';
 import { useLoaderData } from 'react-router';
+import PostDashboard from '~/components/Post/Dashboard';
 import { getPosts } from '~/lib/post.server';
 import { sentry } from '~/lib/sentry.server';
 import { pagerParams } from '~/utils/searchParams.server';
 import { createAbility } from '~/utils/session.server';
-import PostDashboard from '~/components/Post/Dashboard';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   if (!request?.ability) {

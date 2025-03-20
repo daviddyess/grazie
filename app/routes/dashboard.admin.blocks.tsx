@@ -1,11 +1,10 @@
 import { ActionIcon, Box, Button, Stack, Table, Title } from '@mantine/core';
 import { type LoaderFunctionArgs, useLoaderData } from 'react-router';
-
+import { IconEdit, IconSquarePlus } from '@tabler/icons-react';
 import { Fragment, useState } from 'react';
 import BlockEditor from '~/components/Block/Editor';
-import { getBlocks } from '~/lib/block.server';
-import { IconEdit, IconSquarePlus } from '@tabler/icons-react';
 import Pager from '~/components/Pager/Pager';
+import { getBlocks } from '~/lib/block.server';
 import { sentry } from '~/lib/sentry.server';
 import { pagerParams } from '~/utils/searchParams.server';
 import { createAbility } from '~/utils/session.server';

@@ -8,10 +8,10 @@ import type { LoaderFunctionArgs } from 'react-router';
 import { useLoaderData, useNavigate } from 'react-router';
 import Page from '~/components/Page/Page';
 import { getPage } from '~/lib/page.server';
-import { SEO } from '~/utils/meta';
-import { createAbility } from '~/utils/session.server';
 import { sentry } from '~/lib/sentry.server';
 import type { Page as PageType } from '~/types/Page';
+import { SEO } from '~/utils/meta';
+import { createAbility } from '~/utils/session.server';
 
 export function meta({
   data: {

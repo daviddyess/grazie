@@ -5,11 +5,10 @@
  */
 import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
-import { updateCategory, getCategories } from '~/lib/category.server';
+import { getCategories, updateCategory } from '~/lib/category.server';
 import { sentry } from '~/lib/sentry.server';
-import { createAbility } from '~/utils/session.server';
-import { site } from '@/grazie';
 import { SEO } from '~/utils/meta';
+import { createAbility } from '~/utils/session.server';
 
 export function meta({ matches }: { matches: typeof loader }) {
   return SEO({

@@ -3,15 +3,18 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { Title, Grid, Tabs } from '@mantine/core';
-import { useLoaderData, useNavigate } from 'react-router';
+import { Grid, Tabs, Title } from '@mantine/core';
+import {
+  useLoaderData,
+  useNavigate,
+  type LoaderFunctionArgs
+} from 'react-router';
 import CategoryCard from '~/components/Category/CategoryCard';
 import { subject, useAbility } from '~/hooks/useAbility';
 import { getCategories } from '~/lib/category.server';
-import { site } from '@/grazie';
-import { createAbility } from '~/utils/session.server';
 import { sentry } from '~/lib/sentry.server';
 import { SEO } from '~/utils/meta';
+import { createAbility } from '~/utils/session.server';
 
 export function meta({ matches }: { matches: typeof loader }) {
   return SEO({

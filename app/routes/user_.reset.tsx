@@ -3,26 +3,22 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction
-} from 'react-router';
+import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
 import { redirect } from 'react-router';
 import {
   dataWithSuccess,
   redirectWithSuccess,
   redirectWithToast
 } from 'remix-toast';
-import { getSession, commitSession } from '~/utils/session.server';
+import { UserReset } from '~/components/User/Reset';
 import {
   resetPassword,
   requestReset as userRequestReset
 } from '~/lib/user.server';
 import { resetRequestSchema, resetSchema } from '~/types/User';
-import { validateSchema } from '~/utils/validation';
 import { SEO } from '~/utils/meta';
-import { UserReset } from '~/components/User/Reset';
+import { commitSession, getSession } from '~/utils/session.server';
+import { validateSchema } from '~/utils/validation';
 
 export function meta({ matches }: { matches: typeof loader }) {
   return SEO({

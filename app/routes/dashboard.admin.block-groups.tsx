@@ -1,14 +1,14 @@
 import { ActionIcon, Box, Button, Stack, Table, Title } from '@mantine/core';
-import { type LoaderFunctionArgs, useLoaderData } from 'react-router';
-import { Fragment, useState } from 'react';
-import BlockGroupEditor from '~/components/BlockGroup/Editor';
-import { getBlockGroups } from '~/lib/blockGroup.server';
 import { IconEdit, IconSquarePlus } from '@tabler/icons-react';
+import { Fragment, useState } from 'react';
+import { type LoaderFunctionArgs, useLoaderData } from 'react-router';
+import BlockGroupEditor from '~/components/BlockGroup/Editor';
 import Pager from '~/components/Pager/Pager';
-import { createAbility } from '~/utils/session.server';
+import { getBlocks } from '~/lib/block.server';
+import { getBlockGroups } from '~/lib/blockGroup.server';
 import { sentry } from '~/lib/sentry.server';
 import { pagerParams } from '~/utils/searchParams.server';
-import { getBlocks } from '~/lib/block.server';
+import { createAbility } from '~/utils/session.server';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   if (!request?.ability) {

@@ -3,17 +3,17 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { Title, Grid, Tabs, SimpleGrid } from '@mantine/core';
+import { Grid, SimpleGrid, Tabs, Title } from '@mantine/core';
 import type { LoaderFunctionArgs } from 'react-router';
 import { useLoaderData, useNavigate } from 'react-router';
 import NoteCard from '~/components/Note/NoteCard';
-import { getNotes } from '~/lib/note.server';
-import { pagerParams } from '~/utils/searchParams.server';
 import Pager from '~/components/Pager/Pager';
 import { subject, useAbility } from '~/hooks/useAbility';
-import { createAbility, getSession } from '~/utils/session.server';
+import { getNotes } from '~/lib/note.server';
 import { sentry } from '~/lib/sentry.server';
 import { SEO } from '~/utils/meta';
+import { pagerParams } from '~/utils/searchParams.server';
+import { createAbility, getSession } from '~/utils/session.server';
 
 export function meta({ matches }: { matches: typeof loader }) {
   return SEO({

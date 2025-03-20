@@ -1,19 +1,19 @@
+import { site } from '@/grazie';
 import { Feed } from '@gaphub/feed';
-import type { LoaderFunctionArgs } from 'react-router';
-import { getPosts } from '~/lib/post.server';
-import { sentry } from '~/lib/sentry.server';
-import { pagerParams } from '~/utils/searchParams.server';
-import { site, metaSettings } from '@/grazie';
-import { createAbility, getSession } from '~/utils/session.server';
 import { Link } from '@mantine/tiptap';
 import { Highlight } from '@tiptap/extension-highlight';
-import { StarterKit } from '@tiptap/starter-kit';
 import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
-import { generateHTML } from '@tiptap/html';
 import YouTube from '@tiptap/extension-youtube';
+import { generateHTML } from '@tiptap/html';
+import { StarterKit } from '@tiptap/starter-kit';
+import type { LoaderFunctionArgs } from 'react-router';
+import { getPosts } from '~/lib/post.server';
+import { sentry } from '~/lib/sentry.server';
+import { pagerParams } from '~/utils/searchParams.server';
+import { createAbility, getSession } from '~/utils/session.server';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   if (!request?.ability) {

@@ -3,12 +3,12 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import type { ActionFunctionArgs } from 'react-router'; // or cloudflare/deno
-import { updatePrivilege } from '~/lib/privilege.server';
 import { site } from '@/grazie';
+import type { ActionFunctionArgs } from 'react-router'; // or cloudflare/deno
 import { redirectWithToast } from 'remix-toast';
-import { createAbility } from '~/utils/session.server';
+import { updatePrivilege } from '~/lib/privilege.server';
 import { sentry } from '~/lib/sentry.server';
+import { createAbility } from '~/utils/session.server';
 
 export function meta() {
   return [{ title: `Update Privilege${site?.separator}${site?.name}` }];

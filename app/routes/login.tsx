@@ -3,20 +3,15 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction
-} from 'react-router';
+import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
 import { redirect } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
-import { getSession, commitSession } from '~/utils/session.server';
 import { Login } from '~/components/Login';
 import { userLogin } from '~/lib/user.server';
-import { site } from '@/grazie';
 import { loginSchema } from '~/types/User';
-import { validateSchema } from '~/utils/validation';
 import { SEO } from '~/utils/meta';
+import { commitSession, getSession } from '~/utils/session.server';
+import { validateSchema } from '~/utils/validation';
 
 export function meta({ matches }: { matches: typeof loader }) {
   return SEO({

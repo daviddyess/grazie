@@ -4,13 +4,12 @@
  * @license MIT see LICENSE
  */
 import type { LoaderFunctionArgs } from 'react-router';
+import PagesList from '~/components/Page/PagesList';
 import { getPages } from '~/lib/page.server';
-import { site } from '@/grazie';
+import { sentry } from '~/lib/sentry.server';
+import { SEO } from '~/utils/meta';
 import { pagerParams } from '~/utils/searchParams.server';
 import { createAbility } from '~/utils/session.server';
-import { sentry } from '~/lib/sentry.server';
-import PagesList from '~/components/Page/PagesList';
-import { SEO } from '~/utils/meta';
 
 export function meta({ matches }: { matches: typeof loader }) {
   return SEO({

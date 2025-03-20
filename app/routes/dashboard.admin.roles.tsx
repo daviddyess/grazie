@@ -4,8 +4,6 @@
  * @license MIT see LICENSE
  */
 import { ActionIcon, Box, Button, Group, Table, Title } from '@mantine/core';
-import type { LoaderFunctionArgs } from 'react-router';
-import { useLoaderData } from 'react-router';
 import {
   IconCheck,
   IconEdit,
@@ -15,6 +13,8 @@ import {
   IconX
 } from '@tabler/icons-react';
 import { Fragment, useState } from 'react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import classes from '~/components/Dashboard/AdminPost.module.css';
 import Pager from '~/components/Pager/Pager';
 import RoleEditor from '~/components/Role/Editor';

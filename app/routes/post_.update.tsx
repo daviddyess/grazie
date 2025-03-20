@@ -11,9 +11,8 @@ import {
   purgePostCategories
 } from '~/lib/category.server';
 import { getPost, updatePost } from '~/lib/post.server';
-import { createAbility } from '~/utils/session.server';
-import { site } from '@/grazie';
 import { sentry } from '~/lib/sentry.server';
+import { createAbility } from '~/utils/session.server';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   if (!request?.ability) {

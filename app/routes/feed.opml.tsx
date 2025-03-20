@@ -1,6 +1,6 @@
+import { site } from '@/grazie';
 import { Opml } from '@gaphub/feed';
 import type { LoaderFunctionArgs } from 'react-router';
-import { site } from '@/grazie';
 import { createAbility } from '~/utils/session.server';
 
 export async function loader({ request }: LoaderFunctionArgs) {

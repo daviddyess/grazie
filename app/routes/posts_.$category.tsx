@@ -3,13 +3,13 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import type { LoaderFunctionArgs } from 'react-router';
-import { getPosts } from '~/lib/post.server';
 import { site } from '@/grazie';
-import { pagerParams } from '~/utils/searchParams.server';
+import type { LoaderFunctionArgs } from 'react-router';
 import PostsList from '~/components/Post/PostsList';
-import { createAbility, getSession } from '~/utils/session.server';
+import { getPosts } from '~/lib/post.server';
 import { sentry } from '~/lib/sentry.server';
+import { pagerParams } from '~/utils/searchParams.server';
+import { createAbility, getSession } from '~/utils/session.server';
 
 export function meta() {
   return [{ title: `Posts${site?.separator}${site?.name}` }];

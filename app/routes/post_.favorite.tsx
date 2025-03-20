@@ -5,7 +5,6 @@
  */
 import type { ActionFunctionArgs } from 'react-router';
 import { dataWithToast } from 'remix-toast';
-
 import { createOrRemoveFavorite, getPost } from '~/lib/post.server';
 import { sentry } from '~/lib/sentry.server';
 import { createAbility, getSession } from '~/utils/session.server';

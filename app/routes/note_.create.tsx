@@ -3,17 +3,16 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { Title, Grid, Tabs } from '@mantine/core';
+import { Grid, Tabs, Title } from '@mantine/core';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
 import { useNavigate } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
 import Editor from '~/components/Editor';
 import { getLabels, noteLabel } from '~/lib/label.server';
 import { createNote } from '~/lib/note.server';
-import { createAbility, getSession } from '~/utils/session.server';
-import { site } from '@/grazie';
 import { sentry } from '~/lib/sentry.server';
 import { SEO } from '~/utils/meta';
+import { createAbility, getSession } from '~/utils/session.server';
 
 export function meta({ matches }: { matches: typeof loader }) {
   return SEO({

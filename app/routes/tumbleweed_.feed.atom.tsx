@@ -1,6 +1,6 @@
+import { site } from '@/grazie';
 import { Feed } from '@gaphub/feed';
 import { getSnapshotData } from '~/lib/tumbleweed';
-import { site } from '@/grazie';
 
 export async function loader() {
   const snapshots = await getSnapshotData();

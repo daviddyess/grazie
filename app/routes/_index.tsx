@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
+import { metaSettings, site } from '@/grazie';
 import { Grid, SimpleGrid, Tabs } from '@mantine/core';
 import {
   redirect,
@@ -10,17 +11,16 @@ import {
   useNavigate,
   type MetaFunction
 } from 'react-router';
-import type { Route } from './+types/_index';
 import Pager from '~/components/Pager/Pager';
 import PostCard from '~/components/Post/PostCard';
 import { subject, useAbility } from '~/hooks/useAbility';
 import { getPosts } from '~/lib/post.server';
 import { sentry } from '~/lib/sentry.server';
 import { setting } from '~/lib/setting.server';
-import { pagerParams } from '~/utils/searchParams.server';
-import { site, metaSettings } from '@/grazie';
-import { createAbility, getSession } from '~/utils/session.server';
 import { SEO } from '~/utils/meta';
+import { pagerParams } from '~/utils/searchParams.server';
+import { createAbility, getSession } from '~/utils/session.server';
+import type { Route } from './+types/_index';
 
 export const meta: MetaFunction = ({ matches }) => {
   return SEO({

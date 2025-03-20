@@ -7,8 +7,8 @@ import type { ActionFunctionArgs } from 'react-router'; // or cloudflare/deno
 import { redirectWithToast } from 'remix-toast';
 import { noteLabel } from '~/lib/label.server';
 import { getNote, updateNote } from '~/lib/note.server';
-import { createAbility } from '~/utils/session.server';
 import { sentry } from '~/lib/sentry.server';
+import { createAbility } from '~/utils/session.server';
 
 export async function action({ request }: ActionFunctionArgs) {
   if (!request?.ability) {

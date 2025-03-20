@@ -5,7 +5,7 @@
  */
 import type { LoaderFunctionArgs } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
-import { getSession, destroySession } from '~/utils/session.server';
+import { destroySession, getSession } from '~/utils/session.server';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await getSession(request.headers.get('Cookie'));

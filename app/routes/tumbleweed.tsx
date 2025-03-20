@@ -1,3 +1,4 @@
+import { site } from '@/grazie';
 import {
   Alert,
   Anchor,
@@ -11,30 +12,23 @@ import {
   Text,
   Title
 } from '@mantine/core';
-import type {
-  LinksFunction,
-  LoaderFunctionArgs,
-  MetaFunction
-} from 'react-router';
-import { getSnapshotData } from '~/lib/tumbleweed';
-import { createAbility } from '~/utils/session.server';
-import {
-  Link,
-  useFetcher,
-  useLoaderData,
-  useParams,
-  useSearchParams
-} from 'react-router';
-import { useEffect, useState } from 'react';
 import {
   IconClockCheck,
   IconHistory,
   IconHourglassHigh,
   IconLayersDifference
 } from '@tabler/icons-react';
-import { SEO } from '~/utils/meta';
-import { site } from '@/grazie';
+import { useEffect, useState } from 'react';
+import type {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction
+} from 'react-router';
+import { Link, useFetcher, useLoaderData, useSearchParams } from 'react-router';
 import OSIcon from '~/images/opensuse-button.svg';
+import { getSnapshotData } from '~/lib/tumbleweed';
+import { SEO } from '~/utils/meta';
+import { createAbility } from '~/utils/session.server';
 
 export const links: LinksFunction = () => [
   {

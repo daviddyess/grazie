@@ -5,10 +5,9 @@
  */
 import type { LoaderFunctionArgs } from 'react-router';
 import { Outlet } from 'react-router';
-import { site } from '@/grazie';
 import { sentry } from '~/lib/sentry.server';
-import { createAbility } from '~/utils/session.server';
 import { SEO } from '~/utils/meta';
+import { createAbility } from '~/utils/session.server';
 
 export function meta({ matches }: { matches: typeof loader }) {
   return SEO({ title: `Dashboard`, matches });

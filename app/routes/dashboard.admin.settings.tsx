@@ -12,10 +12,10 @@ import {
   Table,
   Title
 } from '@mantine/core';
-import type { LoaderFunctionArgs } from 'react-router';
-import { useLoaderData } from 'react-router';
 import { IconEdit, IconSquarePlus } from '@tabler/icons-react';
 import { Fragment, useState } from 'react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import classes from '~/components/Dashboard/AdminPost.module.css';
 import SettingEditor from '~/components/Setting/Editor';
 import { sentry } from '~/lib/sentry.server';

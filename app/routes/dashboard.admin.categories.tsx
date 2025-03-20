@@ -4,18 +4,18 @@
  * @license MIT see LICENSE
  */
 import { ActionIcon, Box, Button, Stack, Table, Title } from '@mantine/core';
-import type { LoaderFunctionArgs } from 'react-router';
-import { useLoaderData } from 'react-router';
 import { IconEdit, IconSquarePlus } from '@tabler/icons-react';
 import { Fragment, useState } from 'react';
-import classes from '~/components/Dashboard/AdminPost.module.css';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import CategoryEditor from '~/components/Category/Editor';
+import classes from '~/components/Dashboard/AdminPost.module.css';
+import Pager from '~/components/Pager/Pager';
 import { getCategories } from '~/lib/category.server';
+import { sentry } from '~/lib/sentry.server';
 import type { Category } from '~/types/Category';
 import { pagerParams } from '~/utils/searchParams.server';
-import Pager from '~/components/Pager/Pager';
 import { createAbility } from '~/utils/session.server';
-import { sentry } from '~/lib/sentry.server';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   if (!request?.ability) {

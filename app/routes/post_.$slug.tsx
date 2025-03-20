@@ -4,20 +4,18 @@
  * @license MIT see LICENSE
  */
 import { Grid } from '@mantine/core';
-import type { Route } from './+types/post_.$slug';
-import { useLoaderData } from 'react-router';
-import Post from '~/components/Post/Post';
-import { getPost } from '~/lib/post.server';
-import { site } from '@/grazie';
-import { getComments } from '~/lib/comment.server';
-import { CommentList } from '~/components/Comment/CommentList';
 import { useState } from 'react';
+import { useLoaderData } from 'react-router';
+import { CommentList } from '~/components/Comment/CommentList';
 import PostEditor from '~/components/Post/Editor';
-import { createAbility, getSession } from '~/utils/session.server';
+import Post from '~/components/Post/Post';
+import { getComments } from '~/lib/comment.server';
+import { getPost } from '~/lib/post.server';
 import { sentry } from '~/lib/sentry.server';
-import { empty } from '~/utils/generic';
-import { SEO } from '~/utils/meta';
 import type { Post as PostType } from '~/types/Post';
+import { SEO } from '~/utils/meta';
+import { createAbility, getSession } from '~/utils/session.server';
+import type { Route } from './+types/post_.$slug';
 
 export function meta({
   data: {

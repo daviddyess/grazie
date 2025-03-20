@@ -6,9 +6,8 @@
 import type { ActionFunctionArgs } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
 import { getPage, updatePage } from '~/lib/page.server';
-import { createAbility } from '~/utils/session.server';
-import { site } from '@/grazie';
 import { sentry } from '~/lib/sentry.server';
+import { createAbility } from '~/utils/session.server';
 
 export async function action({ request }: ActionFunctionArgs) {
   const form = await request.formData();

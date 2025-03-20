@@ -3,13 +3,13 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
+import { site } from '@/grazie';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
 import { removeRoleUser } from '~/lib/roleUser.server';
-import { createAbility } from '~/utils/session.server';
-import { site } from '@/grazie';
-import { getUsers } from '~/lib/user.server';
 import { sentry } from '~/lib/sentry.server';
+import { getUsers } from '~/lib/user.server';
+import { createAbility } from '~/utils/session.server';
 
 export function meta() {
   return [{ title: `Create Role${site?.separator}${site?.name}` }];

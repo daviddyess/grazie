@@ -4,16 +4,16 @@
  * @license MIT see LICENSE
  */
 import { Grid, Title } from '@mantine/core';
+import { useState } from 'react';
 import type { LoaderFunctionArgs } from 'react-router';
 import { useLoaderData } from 'react-router';
+import NoteEditor from '~/components/Note/Editor';
 import Note from '~/components/Note/Note';
 import { getNote } from '~/lib/note.server';
-import { useState } from 'react';
-import NoteEditor from '~/components/Note/Editor';
-import { createAbility } from '~/utils/session.server';
 import { sentry } from '~/lib/sentry.server';
-import { SEO } from '~/utils/meta';
 import type { Note as NoteType } from '~/types/Note';
+import { SEO } from '~/utils/meta';
+import { createAbility } from '~/utils/session.server';
 
 export function meta({
   data: {

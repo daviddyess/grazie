@@ -3,12 +3,12 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
+import { site } from '@/grazie';
 import type { ActionFunctionArgs } from 'react-router'; // or cloudflare/deno
 import { redirectWithToast } from 'remix-toast';
 import { createPrivilege } from '~/lib/privilege.server';
-import { createAbility } from '~/utils/session.server';
-import { site } from '@/grazie';
 import { sentry } from '~/lib/sentry.server';
+import { createAbility } from '~/utils/session.server';
 
 export function meta() {
   return [{ title: `Create Privilege${site?.separator}${site?.name}` }];

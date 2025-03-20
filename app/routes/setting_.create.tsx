@@ -3,12 +3,12 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
+import { site } from '@/grazie';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
+import { sentry } from '~/lib/sentry.server';
 import { setting } from '~/lib/setting.server';
 import { createAbility } from '~/utils/session.server';
-import { site } from '@/grazie';
-import { sentry } from '~/lib/sentry.server';
 
 export function meta() {
   return [{ title: `Update Post${site?.separator}${site?.name}` }];

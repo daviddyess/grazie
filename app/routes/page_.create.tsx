@@ -3,15 +3,15 @@
  * @copyright Copyright (c) 2024 David Dyess II
  * @license MIT see LICENSE
  */
-import { Title, Grid, Tabs } from '@mantine/core';
+import { site } from '@/grazie';
+import { Grid, Tabs, Title } from '@mantine/core';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from 'react-router';
 import { useLoaderData, useNavigate } from 'react-router';
 import { redirectWithToast } from 'remix-toast';
 import Editor from '~/components/Editor';
 import { createPage } from '~/lib/page.server';
-import { createAbility, getSession } from '~/utils/session.server';
-import { site } from '@/grazie';
 import { sentry } from '~/lib/sentry.server';
+import { createAbility, getSession } from '~/utils/session.server';
 
 export function meta() {
   return [{ title: `Create Page${site?.separator}${site?.name}` }];

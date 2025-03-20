@@ -5,12 +5,12 @@
  */
 import type { LoaderFunctionArgs } from 'react-router';
 import { redirect } from 'react-router';
-import { getPosts } from '~/lib/post.server';
-import { pagerParams } from '~/utils/searchParams.server';
 import PostsList from '~/components/Post/PostsList';
-import { createAbility, getSession } from '~/utils/session.server';
+import { getPosts } from '~/lib/post.server';
 import { sentry } from '~/lib/sentry.server';
 import { SEO } from '~/utils/meta';
+import { pagerParams } from '~/utils/searchParams.server';
+import { createAbility, getSession } from '~/utils/session.server';
 
 export function meta({ matches }: { matches: typeof loader }) {
   return SEO({
