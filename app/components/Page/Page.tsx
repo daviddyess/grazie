@@ -1,6 +1,6 @@
 /**
  * Grazie
- * @copyright Copyright (c) 2024 David Dyess II
+ * @copyright Copyright (c) 2024-2025 David Dyess II
  * @license MIT see LICENSE
  */
 import {
@@ -12,6 +12,7 @@ import {
   Group,
   Menu,
   rem,
+  TableOfContents,
   Text,
   Title,
   useMantineTheme
@@ -110,15 +111,12 @@ export default function PageCard({ page }: { page: PageProps }) {
                   )
                 )}
             </Group>
-
             <Group gap={0}>
               <TimeSince timestamp={page?.updatedAt} pr={4} />
             </Group>
           </Group>
         </Card.Section>
-
         <HTMLContent content={page.body} classes={classes} />
-
         {page?.footer ? (
           <Group mt="xs">
             <Text size="xs" c="dimmed">
@@ -126,7 +124,6 @@ export default function PageCard({ page }: { page: PageProps }) {
             </Text>
           </Group>
         ) : null}
-
         <Card.Section className={classes.footer}>
           <Group justify="space-between">
             <Group>

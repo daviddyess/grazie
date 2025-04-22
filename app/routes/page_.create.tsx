@@ -36,27 +36,21 @@ export async function action({ request }: ActionFunctionArgs) {
   await sentry(request, { action: 'create', subject: 'Page' });
   const form = await request.formData();
   const session = await getSession(request.headers.get('Cookie'));
-  const authorId = session.get('userId') as number;
-  const published = form.get('published') === 'on' ? true : false;
-  const publishedAt = form.get('publishedAt') as string;
-  const slugFormat = form.get('slugFormat') as string;
-  const slug = form.get('slug') as string;
-  const metaData = form.get('meta') as string;
-  let meta;
-  if (metaData) {
-    meta = JSON.parse(metaData);
-  }
+
+  const parentId = form.get('parentId') as string;
+
   const page = await createPage({
-    published,
-    publishedAt,
+    parentId: parentId ? Number(parentId) : undefined,
+    published: form.get('published') === 'on' ? true : false,
+    publishedAt: form.get('publishedAt') as string,
     body: form.get('body') as string,
     search: form.get('search') as string,
     title: form.get('title') as string,
     summary: form.get('summary') as string,
-    authorId,
-    slugFormat,
-    slug,
-    meta: meta ? JSON.stringify(meta) : null
+    authorId: session.get('userId') as number,
+    slugFormat: form.get('slugFormat') as string,
+    slug: form.get('slug') as string,
+    meta: form.get('meta') as string
   });
 
   if (page?.slug) {

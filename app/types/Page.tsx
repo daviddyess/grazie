@@ -5,10 +5,11 @@
  */
 export type PageInput = {
   id?: number;
-  authorId: number;
+  authorId?: number;
+  parentId?: number;
   published?: boolean;
   createdAt?: number;
-  publishedAt: number;
+  publishedAt: string;
   updatedAt?: number;
   title: string;
   slug?: string;
@@ -16,20 +17,24 @@ export type PageInput = {
   summary?: string;
   search?: string;
   body: object | string;
-  meta?: object;
+  path?: string;
+  meta?: object | string;
 };
 
 export type Page = {
   id: number;
   authorId: number;
+  parentId?: number;
   published: boolean;
   createdAt: number;
-  publishedAt: number;
+  publishedAt: string;
   updatedAt: number;
   title: string;
   slug: string;
   summary?: string;
   search?: string;
   body: object;
+  path?: string;
   author: { displayName: string };
+  meta?: object | string;
 };

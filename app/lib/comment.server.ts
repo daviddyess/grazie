@@ -7,7 +7,7 @@
 import { getUserByUsername } from '~/lib/user.server';
 import { avatarURL } from '~/utils/config.server';
 import { getLogger } from '~/utils/logger.server';
-import { timeString } from '~/utils/generic.server';
+import { chronoPathGenerator, timeString } from '~/utils/generic.server';
 import { prisma } from '~/utils/prisma.server';
 import type { CommentInput } from '~/types/Comment';
 
@@ -55,15 +55,8 @@ export async function createComment({
     const comment = await prisma.comment.create({
       data
     });
-    // threadPath is an inheritable and sortable string hierarchy of 'timeStamp' + 'id'
-    // the initial threadPath includes the parent threadPath (if applicable), a new timeStamp, and is then appended by the 'id' portion here
-    // the 'id' is a string formatted as ("'_key.length'+'_key'") to prevent threadPath unique conflicts, while retaining sortability
-    // this 'id' results in a numeric sortable string, such as 001+1 or 002+10 or 010+1000000000
-    // a length limit of 999 digits
-    const idLength = [...`${comment.id}`].length;
-    const zero = '0';
-    const prependZeros = `${zero.repeat(3 - 1 - Math.floor(idLength / 10))}`;
-    threadPath = `${comment.path}(${prependZeros}${idLength}+${comment.id})`;
+
+    threadPath = chronoPathGenerator({ id: comment.id, parent: parent?.path });
 
     await prisma.post.update({
       where: {

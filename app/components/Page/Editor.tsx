@@ -1,6 +1,6 @@
 /**
  * Grazie
- * @copyright Copyright (c) 2024 David Dyess II
+ * @copyright Copyright (c) 2024-2025 David Dyess II
  * @license MIT see LICENSE
  */
 import {
@@ -19,16 +19,23 @@ import {
 import { DateTimePicker } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import '@mantine/tiptap/styles.layer.css';
-import { Form, useLoaderData, useNavigate, useSubmit } from 'react-router';
 import type { JSONContent } from '@tiptap/core';
 import type { Dispatch, SetStateAction } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import {
+  Form,
+  useFetcher,
+  useLoaderData,
+  useNavigate,
+  useSubmit
+} from 'react-router';
 import MantineEditor from '~/components/Tiptap/Editor';
 import { DebugCollapse } from '../DebugCollapse';
 import { SEO } from '../SEO';
 
 interface Editor {
   id?: number | null;
+  parentId?: number | null;
   createdAt?: string | null;
   published?: boolean;
   publishedAt?: number | null;
@@ -45,8 +52,9 @@ interface Editor {
   meta?: string | null;
 }
 
-const ArticleEditor = ({
+const PageEditor = ({
   id = null,
+  parentId = null,
   createdAt = null,
   published = false,
   publishedAt = null,
@@ -64,6 +72,7 @@ const ArticleEditor = ({
   const form = useForm({
     initialValues: {
       id,
+      parentId,
       createdAt,
       published,
       publishedAt: publishedAt ? new Date(publishedAt) : null,
@@ -95,7 +104,7 @@ const ArticleEditor = ({
 
   const loaderData = useLoaderData();
 
-  const [catSearchValue, setCatSearchValue] = useState('');
+  const [pagesList, setPagesList] = useState(loaderData?.pagesList);
 
   const route = !id ? '/page/create' : '/page/update';
 
@@ -126,6 +135,22 @@ const ArticleEditor = ({
       </Button>
     ) : null;
   };
+
+  const fetcher = useFetcher();
+
+  useEffect(() => {
+    if (!pagesList) {
+      if (fetcher.state === 'idle') {
+        fetcher.load(`/page/update`);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (fetcher.data) {
+      setPagesList(fetcher.data.pagesList);
+    }
+  }, [fetcher.data]);
 
   return (
     <Grid>
@@ -186,6 +211,27 @@ const ArticleEditor = ({
                     {...form.getInputProps('publishedAt')}
                   />
                 )}
+                <Select
+                  name="parentId"
+                  label="Parent Page"
+                  placeholder="Select a Parent Page"
+                  {...form.getInputProps('parentId')}
+                  data={
+                    pagesList?.totalCount > 0
+                      ? pagesList?.nodes
+                          ?.filter(
+                            (page: { id: number; title: string }) =>
+                              page.id !== form.values.id
+                          )
+                          .map((page: { id: number; title: string }) => ({
+                            value: `${page.id}`,
+                            label: page.title
+                          }))
+                      : []
+                  }
+                  value={`${form.values.parentId}`}
+                  disabled={pagesList?.totalCount === 0}
+                />
                 <Select
                   name="slugFormat"
                   label="URL Format"
@@ -260,4 +306,5 @@ const ArticleEditor = ({
     </Grid>
   );
 };
-export default ArticleEditor;
+
+export default PageEditor;

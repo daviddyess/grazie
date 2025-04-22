@@ -159,3 +159,67 @@ export const uuid = () => {
 export const stripTags = (value: string) => {
   return value.replace(/(<([^>]+)>)/gi, '');
 };
+/**
+ * Generate a Chronologically Sortable String Path
+ * @param param0
+ * @returns
+ */
+export const chronoPathGenerator = ({
+  id,
+  parent
+}: {
+  id: number;
+  parent?: string;
+}) => {
+  try {
+    // Path is an inheritable and sortable string hierarchy of 'timeStamp' + 'id'
+    // the initial Path includes the parent Path (if applicable), a new timeStamp, and is then appended by the 'id' portion
+    // the 'id' is a string formatted as ("'_key.length'+'_key'") to prevent Path unique conflicts, while retaining sortability
+    // this 'id' results in a numeric sortable string, such as 001+1 or 002+10 or 010+1000000000
+    // a length limit of 999 digits
+    const date = timeString();
+    const parentPath = parent ? `${parent}/${date}` : `${date}`;
+    const idLength = [...`${id}`].length;
+    const zero = '0';
+    const prependZeros = `${zero.repeat(3 - 1 - Math.floor(idLength / 10))}`;
+    return `${parentPath}(${prependZeros}${idLength}+${id})`;
+  } catch (err: any) {
+    log.error(err.message);
+  }
+};
+
+/**
+ * Generate a Sortable String Path
+ * @param param0
+ * @returns
+ */
+export const pathGenerator = ({
+  id,
+  name,
+  parent
+}: {
+  id?: number;
+  name: string;
+  parent?: string;
+}) => {
+  try {
+    // Path is an inheritable and sortable string hierarchy of 'name' or 'name' + 'id'
+    // the initial Path includes the parent Path (if applicable), provided string name, and is then appended by the optional 'id' portion
+    // the 'id' is a string formatted as ("'_key.length'+'_key'") to prevent Path unique conflicts, while retaining sortability
+    // this 'id' results in a numeric sortable string, such as 001+1 or 002+10 or 010+1000000000
+    // a length limit of 999 digits
+    const path = parent ? `${parent}/${name}` : `${name}`;
+
+    if (!id) {
+      return path;
+    }
+
+    const idLength = [...`${id}`].length;
+    const zero = '0';
+
+    const prependZeros = `${zero.repeat(3 - 1 - Math.floor(idLength / 10))}`;
+    return `${path}(${prependZeros}${idLength}+${id})`;
+  } catch (err: any) {
+    log.error(err.message);
+  }
+};

@@ -1,16 +1,16 @@
 /**
  * Grazie
  * @package Page Library
- * @copyright Copyright (c) 2024 David Dyess II
+ * @copyright Copyright (c) 2024-2025 David Dyess II
  * @license MIT see LICENSE
  */
 import { getUserByUsername } from '~/lib/user.server';
 import type { Page, PageInput } from '~/types/Page';
-import { getLogger } from '~/utils/logger.server';
-import { formatSlug } from '~/utils/formatSlug';
-import { dateString, timeString } from '~/utils/generic.server';
-import { prisma } from '~/utils/prisma.server';
 import { avatarURL } from '~/utils/config.server';
+import { formatSlug } from '~/utils/formatSlug';
+import { dateString, pathGenerator, timeString } from '~/utils/generic.server';
+import { getLogger } from '~/utils/logger.server';
+import { prisma } from '~/utils/prisma.server';
 
 const log = getLogger('Pages Query');
 
@@ -50,6 +50,7 @@ export async function createPage({
   title,
   summary,
   body,
+  parentId,
   search,
   published,
   publishedAt,
@@ -64,7 +65,11 @@ export async function createPage({
       publishedAt = date;
     }
     const data = {
-      body: body?.type ? (JSON.stringify(body) as string) : (body as string),
+      body:
+        typeof body === 'object'
+          ? (JSON.stringify(body) as string)
+          : (body as string),
+      parentId,
       search,
       title,
       summary,
@@ -74,7 +79,7 @@ export async function createPage({
       updatedAt: date,
       authorId,
       slug: `${timeString()}_${title}`,
-      meta
+      meta: typeof meta === 'object' ? JSON.stringify(meta) : (meta as string)
     };
 
     const page = await prisma.page.create({
@@ -92,10 +97,22 @@ export async function createPage({
     });
 
     slug = await slugCheck(slug);
+    let parent;
+    if (parentId) {
+      parent = await prisma.page.findUnique({
+        where: { id: parentId },
+        select: { id: true, path: true }
+      });
+    }
+    const path = pathGenerator({
+      name: slug,
+      parent: parent?.path ?? undefined
+    });
 
     const update = await prisma.page.update({
       where: { id: page.id },
       data: {
+        path,
         slug
       },
       select: {
@@ -118,6 +135,7 @@ export async function updatePage({
   published,
   publishedAt,
   body,
+  parentId,
   search,
   title,
   summary,
@@ -130,8 +148,15 @@ export async function updatePage({
       throw new Error('Page Update requires either id or slug');
     }
     const date = timeString();
+
+    const bodyObj = typeof body === 'string' ? JSON.parse(body) : body;
+
     const data = {
-      body: body?.type ? (JSON.stringify(body) as string) : (body as string),
+      body:
+        typeof body === 'object'
+          ? (JSON.stringify(body) as string)
+          : (body as string),
+      parentId,
       search,
       title,
       summary,
@@ -139,7 +164,8 @@ export async function updatePage({
       publishedAt,
       updatedAt: date,
       slug: slug ?? undefined,
-      meta
+      meta: typeof meta === 'object' ? JSON.stringify(meta) : (meta as string),
+      path: undefined
     };
 
     const where = {} as { id?: number; slug?: string };
@@ -159,7 +185,9 @@ export async function updatePage({
       select: {
         createdAt: true,
         published: true,
-        slug: true
+        slug: true,
+        parentId: true,
+        path: true
       }
     });
     if (prevStatus?.published !== published) {
@@ -184,6 +212,44 @@ export async function updatePage({
 
       data.slug = await slugCheck(slug);
     }
+    let parent;
+    let parentPath;
+    if (parentId) {
+      data.parentId = parentId;
+
+      parent = await prisma.page.findUnique({
+        where: {
+          id: parentId
+        },
+        select: {
+          id: true,
+          title: true,
+          path: true
+        }
+      });
+
+      if (!parent?.path) {
+        parentPath = pathGenerator({
+          id: parent.id,
+          name: parent.slug
+        });
+        await prisma.page.update({
+          where: {
+            id: parent.id
+          },
+          data: {
+            path
+          }
+        });
+      } else {
+        parentPath = parent.path;
+      }
+    }
+
+    data.path = pathGenerator({
+      name: data.slug,
+      parent: parentPath
+    });
 
     const page = await prisma.page.update({
       where: {
@@ -191,6 +257,41 @@ export async function updatePage({
       },
       data
     });
+
+    if (data.path !== prevStatus.path) {
+      const children = await prisma.page.findMany({
+        where: {
+          path: {
+            startsWith: `${prevStatus.path}/`
+          }
+        },
+        select: {
+          id: true,
+          slug: true
+        }
+      });
+
+      await Promise.all(
+        children.map(async (child) => {
+          const prevChild = await prisma.page.findUnique({
+            where: {
+              id: child.id
+            },
+            select: {
+              path: true
+            }
+          });
+          await prisma.page.update({
+            where: {
+              id: child.id
+            },
+            data: {
+              path: prevChild.path.replace(prevStatus.path, data.path)
+            }
+          });
+        })
+      );
+    }
 
     return page;
   } catch (error: any) {
@@ -217,9 +318,9 @@ export async function getPage({
   slug,
   select
 }: {
-  id: Page['id'];
-  slug: Page['slug'];
-  select: object;
+  id?: Page['id'];
+  slug?: Page['slug'];
+  select?: object;
 }) {
   try {
     const where = {} as { id?: number; slug?: string };
@@ -235,6 +336,7 @@ export async function getPage({
       where,
       select: select ?? {
         id: true,
+        parentId: true,
         title: true,
         summary: true,
         body: true,
@@ -245,12 +347,27 @@ export async function getPage({
         publishedAt: true,
         slug: true,
         search: true,
+        path: true,
         meta: true,
         author: {
           select: {
             displayName: true,
             username: true,
             avatar: true
+          }
+        },
+        children: {
+          select: {
+            id: true,
+            title: true,
+            slug: true
+          }
+        },
+        parent: {
+          select: {
+            id: true,
+            title: true,
+            slug: true
           }
         }
       }
@@ -266,6 +383,7 @@ export async function getPage({
 
 export async function getPages({
   filter = {},
+  select = undefined,
   limit = 25,
   offset = 0
 }: {
@@ -275,6 +393,7 @@ export async function getPages({
     category?: string;
     published?: boolean;
   };
+  select?: object | undefined;
   limit?: number;
   offset?: number;
 }) {
@@ -302,12 +421,13 @@ export async function getPages({
       where.published = filter.published;
     }
 
-    const articles = await prisma.page.findMany({
+    const pages = await prisma.page.findMany({
       where,
-      select: {
+      select: select ?? {
         id: true,
         published: true,
         authorId: true,
+        parentId: true,
         createdAt: true,
         publishedAt: true,
         updatedAt: true,
@@ -323,6 +443,20 @@ export async function getPages({
             username: true,
             avatar: true
           }
+        },
+        children: {
+          select: {
+            id: true,
+            title: true,
+            slug: true
+          }
+        },
+        parent: {
+          select: {
+            id: true,
+            title: true,
+            slug: true
+          }
         }
       },
       orderBy: { createdAt: 'desc' },
@@ -332,10 +466,77 @@ export async function getPages({
 
     return {
       avatarURL,
-      count: articles.length,
+      count: pages.length,
       totalCount: await prisma.page.count({ where }),
-      nodes: articles
+      nodes: pages
     };
+  } catch (error: any) {
+    log.error(error.message);
+    log.error(error.stack);
+    throw error;
+  }
+}
+/**
+ * Get Pages in a Path
+ * @param param0
+ */
+export async function getPagePath({
+  path,
+  select = { id: true, slug: true, title: true, path: true }
+}: {
+  path: string;
+  select: object;
+}) {
+  try {
+    const paths = path.split('/');
+    // eventual return pages
+    let pages = [];
+    // path building up the thread
+    let thread = '';
+
+    if (paths?.length > 1) {
+      for (const part of paths) {
+        // append next part to the thread
+        thread += part;
+
+        const page = await prisma.page.findUnique({
+          where: {
+            path: thread
+          },
+          select
+        });
+        pages.push(page);
+        // prep for next part of the thread
+        thread += `/`;
+      }
+    }
+    return pages;
+  } catch (error: any) {
+    log.error(error.message);
+    log.error(error.stack);
+    throw error;
+  }
+}
+/**
+ * Get Page in Path Tree
+ * @param param0
+ */
+export async function getPageTree({
+  path,
+  select = { id: true, title: true, slug: true, path: true }
+}) {
+  try {
+    const paths = path.split('/');
+    const pages = await prisma.page.findMany({
+      where: {
+        path: {
+          contains: paths[0]
+        }
+      },
+      select,
+      orderBy: { path: 'asc' }
+    });
+    return pages;
   } catch (error: any) {
     log.error(error.message);
     log.error(error.stack);

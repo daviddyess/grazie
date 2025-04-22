@@ -11,15 +11,15 @@ datasource db {
 }
 
 model User {
-  id                 Int             @id @default(autoincrement())
-  banned             Boolean         @default(false)
-  verified           Boolean         @default(false)
-  bookmarkPostsCount Int             @default(0)
-  commentsCount      Int             @default(0)
-  favoritePostsCount Int             @default(0)
-  notesCount         Int             @default(0)
-  pagesCount         Int             @default(0)
-  postsCount         Int             @default(0)
+  id                 Int            @id @default(autoincrement())
+  banned             Boolean        @default(false)
+  verified           Boolean        @default(false)
+  bookmarkPostsCount Int            @default(0)
+  commentsCount      Int            @default(0)
+  favoritePostsCount Int            @default(0)
+  notesCount         Int            @default(0)
+  pagesCount         Int            @default(0)
+  postsCount         Int            @default(0)
   email              String
   displayName        String
   username           String
@@ -28,7 +28,7 @@ model User {
   location           String?
   profile            String?
   createdAt          String
-  bannedAt           String?     
+  bannedAt           String?
   lastLoginAt        String
   updatedAt          String
   verifiedAt         String?
@@ -54,7 +54,7 @@ model User {
   @@index([commentsCount], map: "idx_user_comments")
   @@index([favoritePostsCount], map: "idx_user_favorite_posts")
   @@index([notesCount], map: "idx_user_notes")
-  }
+}
 
 model Post {
   id             Int            @id @default(autoincrement())
@@ -92,27 +92,33 @@ model Post {
 }
 
 model Page {
-  id          Int       @id @default(autoincrement())
-  published   Boolean   @default(true)
+  id          Int     @id @default(autoincrement())
+  published   Boolean @default(true)
   authorId    Int
+  parentId    Int?
   createdAt   String
   publishedAt String?
   updatedAt   String
-  viewsCount  Int       @default(0)
+  path        String?
+  viewsCount  Int     @default(0)
   title       String
   body        String
   slug        String
   summary     String?
   search      String?
   meta        String?
-  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  author      User    @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parent      Page?   @relation("PageToPage", fields: [parentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  children    Page[]  @relation("PageToPage")
 
   @@unique([slug], map: "unq_page_slug")
+  @@unique([path], map: "idx_page_path")
   @@index([authorId], map: "idx_page_author")
   @@index([createdAt], map: "idx_page_created")
   @@index([published], map: "idx_page_published")
   @@index([publishedAt], map: "idx_page_publishedAt")
   @@index([updatedAt], map: "idx_page_updated")
+  @@index([parentId], map: "idx_page_parent")
   @@index([search], map: "idx_page_search")
   @@index([summary], map: "idx_page_summary")
   @@index([viewsCount], map: "idx_page_views_count")
@@ -131,14 +137,14 @@ model Role {
 }
 
 model RoleUser {
-  id        Int      @id @default(autoincrement())
-  active    Boolean  @default(true)
+  id        Int     @id @default(autoincrement())
+  active    Boolean @default(true)
   roleId    Int
   userId    Int?
-  createdAt String   
-  updatedAt String   
-  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt String
+  updatedAt String
+  role      Role    @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([roleId, userId], map: "unq_user_role")
   @@index([active], map: "idx_user_role_active")
@@ -153,7 +159,7 @@ model Category {
   postsCount  Int            @default(0)
   name        String
   slug        String
-  path        String
+  path        String?
   description String?
   parent      Category?      @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   children    Category[]     @relation("CategoryToCategory")
@@ -291,7 +297,7 @@ model UserSetting {
 
 model Privilege {
   id      Int             @id @default(autoincrement())
-  subject String  
+  subject String
   action  String
   roles   RolePrivilege[]
 
@@ -302,7 +308,7 @@ model Privilege {
 
 model RolePrivilege {
   id          Int       @id @default(autoincrement())
-  roleId      Int  
+  roleId      Int
   privilegeId Int
   inverted    Boolean   @default(false)
   conditions  String?
@@ -345,13 +351,13 @@ model BookmarkPost {
 }
 
 model BlockGroup {
-  id          Int      @id @default(autoincrement())
-  status      Boolean  @default(false)
+  id          Int               @id @default(autoincrement())
+  status      Boolean           @default(false)
   name        String
   description String?
   title       String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @default(now())
   options     String?
   blocks      BlockGroupBlock[]
 
@@ -362,16 +368,16 @@ model BlockGroup {
 }
 
 model Block {
-  id          Int        @id @default(autoincrement())
-  status      Boolean    @default(false)
+  id          Int               @id @default(autoincrement())
+  status      Boolean           @default(false)
   blockType   String
   name        String
   description String?
   title       String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @default(now())
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @default(now())
   content     String?
-  groups       BlockGroupBlock[]
+  groups      BlockGroupBlock[]
 
   @@unique([name], map: "unq_block_name")
   @@index([blockType], map: "idx_block_type")

@@ -7,7 +7,7 @@ import { Grid } from '@mantine/core';
 import type { LoaderFunctionArgs } from 'react-router';
 import { useLoaderData, useNavigate } from 'react-router';
 import Page from '~/components/Page/Page';
-import { getPage } from '~/lib/page.server';
+import { getPage, getPagePath, getPageTree } from '~/lib/page.server';
 import { sentry } from '~/lib/sentry.server';
 import type { Page as PageType } from '~/types/Page';
 import { SEO } from '~/utils/meta';
@@ -47,6 +47,9 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   if (page) {
     await sentry(request, { action: 'read', subject: 'Page', item: page });
     page.body = JSON.parse(page.body);
+
+    page.breadcrumbs = await getPagePath({ path: page.path });
+    page.tree = await getPageTree({ path: page.path });
   }
 
   return { page };

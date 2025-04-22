@@ -24,9 +24,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
     offset: page ? (page - 1) * count : 0
   };
   const pages = await getPages(query);
+  const pagesList = await getPages({
+    limit: undefined,
+    select: {
+      id: true,
+      title: true
+    }
+  });
   return {
     _page: 'dashboard',
     pages,
+    pagesList,
     pager: pagerLoader(pages.totalCount)
   };
 }
