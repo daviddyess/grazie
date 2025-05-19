@@ -47,9 +47,14 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   if (page) {
     await sentry(request, { action: 'read', subject: 'Page', item: page });
     page.body = JSON.parse(page.body);
-
-    page.breadcrumbs = await getPagePath({ path: page.path });
-    page.tree = await getPageTree({ path: page.path });
+    // Older pages may not have a path property
+    if (page?.path) {
+      page.breadcrumbs = await getPagePath({ path: page.path });
+      page.tree = await getPageTree({ path: page.path });
+    } else {
+      page.breadcrumbs = [];
+      page.tree = [];
+    }
   }
 
   return { page };
