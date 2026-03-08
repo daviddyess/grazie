@@ -172,7 +172,7 @@ export const siteLinks = [
     rel: 'icon',
     type: 'image/png',
     href: favicon
-    }
+  }
 ];
 ```
 
@@ -185,6 +185,8 @@ The Settings section in the Admin dashboard can be used to configure the site se
 If a setting is not found in the database, the `grazie.config.ts` settings are used as a fallback. If a setting is not found in the `grazie.config.ts` settings, a default value is used. If only the `grazie.config.default.ts` file is present, that file will be used instead of the preferred config file. To avoid conflicts in the future, it is recommended to never edit the default config file.
 
 ## Site Specific Features
+
+See the README in the `/site` folder for information on site specific features and how to override them.
 
 ## Development
 
