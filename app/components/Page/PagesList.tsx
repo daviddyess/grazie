@@ -4,14 +4,13 @@
  * @license MIT see LICENSE
  */
 import { Title, Grid, Tabs } from '@mantine/core';
-import { useLoaderData, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import PageCard from '~/components/Page/PageCard';
 import Pager from '~/components/Pager/Pager';
 import { subject, useAbility } from '~/hooks/useAbility';
-import { loader } from '~/routes/pages';
+import type { Route } from '+/pages';
 
-export default function PagesList() {
-  const data = useLoaderData<typeof loader>();
+export default function PagesList({ loaderData: data }: Route.ComponentProps) {
   const navigate = useNavigate();
   const ability = useAbility();
 
