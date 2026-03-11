@@ -63,7 +63,7 @@ export function CommentCard({
     <Paper
       withBorder
       radius="md"
-      className={classes.comment}
+      bg="transparent"
       mb="sm"
       ml={depth * 20}
       style={{
@@ -71,6 +71,7 @@ export function CommentCard({
           ? '2px solid var(--mantine-primary-color-filled)'
           : undefined
       }}
+      className={classes.comment}
     >
       <Group>
         <Avatar

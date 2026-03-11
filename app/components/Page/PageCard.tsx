@@ -73,7 +73,7 @@ export default function PageCard({
   }, [copied]);
 
   return (
-    <Card mb={6} radius="md" className={classes.card}>
+    <Card mb={6} radius="md" bg="transparent" className={classes.card}>
       <Card.Section className={classes.header}>
         <Group justify="space-between">
           {title ? (

@@ -1,6 +1,5 @@
 .card {
   position: relative;
-  background-color: light-dark(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.01));
   border: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
 }
 

@@ -62,7 +62,14 @@ export default function NoteCard({
   const { ref: contentRef, height } = useElementSize();
 
   return (
-    <Card withBorder mb={6} radius="md" className={classes.card} {...others}>
+    <Card
+      withBorder
+      mb={6}
+      radius="md"
+      bg="transparent"
+      className={classes.card}
+      {...others}
+    >
       <Card.Section className={classes.header}>
         <Group justify="space-between">
           <Group gap={0} p={4}>

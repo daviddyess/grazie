@@ -24,7 +24,13 @@ export default function PostCard({
   const theme = useMantineTheme();
 
   return (
-    <Card withBorder mb={6} radius="md" className={classes.card}>
+    <Card
+      withBorder
+      mb={6}
+      radius="md"
+      bg="transparent"
+      className={classes.card}
+    >
       <Title order={3} className={classes.title}>
         {name}
       </Title>
